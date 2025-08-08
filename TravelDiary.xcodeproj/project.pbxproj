@@ -6,13 +6,36 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		35BB53ED2E45EB2700E20C1D /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 35BB53EC2E45EB2700E20C1D /* FirebaseAuth */; };
+		35BB53EF2E45EB2700E20C1D /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 35BB53EE2E45EB2700E20C1D /* FirebaseCore */; };
+		35BB53F12E45EB2700E20C1D /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 35BB53F02E45EB2700E20C1D /* FirebaseDatabase */; };
+		35BB53F32E45EB2700E20C1D /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 35BB53F22E45EB2700E20C1D /* FirebaseFirestore */; };
+		35BB53F52E45EB2700E20C1D /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 35BB53F42E45EB2700E20C1D /* FirebaseStorage */; };
+		35BB53F82E45F52C00E20C1D /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 35BB53F72E45F52C00E20C1D /* GoogleSignIn */; };
+		35BB53FA2E45F52C00E20C1D /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 35BB53F92E45F52C00E20C1D /* GoogleSignInSwift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		35BB53BF2E45E42C00E20C1D /* TravelDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravelDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		35BB53FE2E45FB7800E20C1D /* Exceptions for "TravelDiary" folder in "TravelDiary" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 35BB53BE2E45E42C00E20C1D /* TravelDiary */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		35BB53C12E45E42C00E20C1D /* TravelDiary */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				35BB53FE2E45FB7800E20C1D /* Exceptions for "TravelDiary" folder in "TravelDiary" target */,
+			);
 			path = TravelDiary;
 			sourceTree = "<group>";
 		};
@@ -23,6 +46,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35BB53F12E45EB2700E20C1D /* FirebaseDatabase in Frameworks */,
+				35BB53F32E45EB2700E20C1D /* FirebaseFirestore in Frameworks */,
+				35BB53FA2E45F52C00E20C1D /* GoogleSignInSwift in Frameworks */,
+				35BB53EF2E45EB2700E20C1D /* FirebaseCore in Frameworks */,
+				35BB53F52E45EB2700E20C1D /* FirebaseStorage in Frameworks */,
+				35BB53ED2E45EB2700E20C1D /* FirebaseAuth in Frameworks */,
+				35BB53F82E45F52C00E20C1D /* GoogleSignIn in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +95,13 @@
 			);
 			name = TravelDiary;
 			packageProductDependencies = (
+				35BB53EC2E45EB2700E20C1D /* FirebaseAuth */,
+				35BB53EE2E45EB2700E20C1D /* FirebaseCore */,
+				35BB53F02E45EB2700E20C1D /* FirebaseDatabase */,
+				35BB53F22E45EB2700E20C1D /* FirebaseFirestore */,
+				35BB53F42E45EB2700E20C1D /* FirebaseStorage */,
+				35BB53F72E45F52C00E20C1D /* GoogleSignIn */,
+				35BB53F92E45F52C00E20C1D /* GoogleSignInSwift */,
 			);
 			productName = TravelDiary;
 			productReference = 35BB53BF2E45E42C00E20C1D /* TravelDiary.app */;
@@ -94,6 +131,10 @@
 			);
 			mainGroup = 35BB53B62E45E42C00E20C1D;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				35BB53EB2E45EB2700E20C1D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				35BB53F62E45F52C00E20C1D /* XCRemoteSwiftPackageReference "GoogleSignIn-IOS" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 35BB53C02E45E42C00E20C1D /* Products */;
 			projectDirPath = "";
@@ -251,8 +292,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = THAJT3C2NG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TravelDiary/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -263,6 +306,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.shreyaprasad.TravelDiary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -278,8 +322,10 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = THAJT3C2NG;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TravelDiary/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -290,6 +336,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.shreyaprasad.TravelDiary;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -320,6 +367,63 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		35BB53EB2E45EB2700E20C1D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 12.1.0;
+			};
+		};
+		35BB53F62E45F52C00E20C1D /* XCRemoteSwiftPackageReference "GoogleSignIn-IOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-IOS/";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		35BB53EC2E45EB2700E20C1D /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 35BB53EB2E45EB2700E20C1D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		35BB53EE2E45EB2700E20C1D /* FirebaseCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 35BB53EB2E45EB2700E20C1D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCore;
+		};
+		35BB53F02E45EB2700E20C1D /* FirebaseDatabase */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 35BB53EB2E45EB2700E20C1D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseDatabase;
+		};
+		35BB53F22E45EB2700E20C1D /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 35BB53EB2E45EB2700E20C1D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		35BB53F42E45EB2700E20C1D /* FirebaseStorage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 35BB53EB2E45EB2700E20C1D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseStorage;
+		};
+		35BB53F72E45F52C00E20C1D /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 35BB53F62E45F52C00E20C1D /* XCRemoteSwiftPackageReference "GoogleSignIn-IOS" */;
+			productName = GoogleSignIn;
+		};
+		35BB53F92E45F52C00E20C1D /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 35BB53F62E45F52C00E20C1D /* XCRemoteSwiftPackageReference "GoogleSignIn-IOS" */;
+			productName = GoogleSignInSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 35BB53B72E45E42C00E20C1D /* Project object */;
 }
