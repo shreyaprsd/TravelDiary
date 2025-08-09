@@ -86,13 +86,16 @@ class AuthViewModel: ObservableObject {
         }
     }
 }
+
 extension AuthViewModel {
     func signInWithGoogle() async -> Bool {
         guard let clientID = FirebaseApp.app()?.options.clientID else {
             fatalError("No client id found in firebase configuration")
         }
+        
         let config = GIDConfiguration(clientID: clientID)
         GIDSignIn.sharedInstance.configuration = config
+        
         guard
             let windowScene = UIApplication.shared.connectedScenes.first
                 as? UIWindowScene,
@@ -102,6 +105,7 @@ extension AuthViewModel {
             print("There is no root view controller")
             return false
         }
+        
         do {
             let userAuthentication = try await GIDSignIn.sharedInstance.signIn(
                 withPresenting: rootViewController

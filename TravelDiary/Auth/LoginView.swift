@@ -11,6 +11,7 @@ import SwiftUI
 struct LoginView: View {
     @StateObject var viewModel: AuthViewModel
     @Environment(\.dismiss) var dismiss
+    
     private func signInWithGoogle() {
         Task {
             if await viewModel.signInWithGoogle() == true {
@@ -18,6 +19,7 @@ struct LoginView: View {
             }
         }
     }
+    
     var body: some View {
         VStack(spacing: 20) {
             Text("Login Page")
