@@ -11,12 +11,24 @@ struct ContentView: View {
     @StateObject var viewModel: AuthViewModel
     var body: some View {
         VStack {
-            LoginView(viewModel: viewModel)
+            switch viewModel.authenticationState {
+            case .unauthenticated:
+                LoginView(viewModel: viewModel)
+            case .authenticating:
+                ProgressView("Signing in ..")
+                    .progressViewStyle(CircularProgressViewStyle())
+    
+            case .authenticated:
+                MainView(viewModel: viewModel)
+            }
+            
         }
         .padding()
+        .onAppear {
+            viewModel.registerAuthStateHandler()
+        }
     }
 }
-
 #Preview {
     ContentView(viewModel: AuthViewModel())
 }
