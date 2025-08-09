@@ -5,12 +5,76 @@
 //  Created by Shreya Prasad on 09/08/25.
 //
 
+import MapKit
 import SwiftUI
 
 struct MapView: View {
+    @State private var searchText = ""
+    @State private var region = MKCoordinateRegion(
+        center: CLLocationCoordinate2D(latitude: 12.9629, longitude: 77.5775),
+        span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+    )
+    @State private var annotations: [MapAnnotation] = []
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            HStack {
+                TextField("Search for a location", text: $searchText)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+
+                Button("Search") {
+                    searchLocation()
+                }
+            }
+            .padding()
+            Map(coordinateRegion: $region, annotationItems: annotations) {
+                annotation in
+                MapMarker(coordinate: annotation.coordinate, tint: .red)
+            }
+        }
     }
+
+    func searchLocation() {
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = searchText
+        request.region = region
+
+        let search = MKLocalSearch(request: request)
+        search.start { response, error in
+            guard let response = response else {
+                print(
+                    "Search error: \(error?.localizedDescription ?? "Unknown error")"
+                )
+                return
+            }
+            DispatchQueue.main.async {
+                annotations.removeAll()
+
+                if let firstItem = response.mapItems.first {
+                    let coordinate = firstItem.placemark.coordinate
+                    region = MKCoordinateRegion(
+                        center: coordinate,
+                        span: MKCoordinateSpan(
+                            latitudeDelta: 0.01,
+                            longitudeDelta: 0.01
+                        )
+                    )
+                    annotations.append(
+                        MapAnnotation(
+                            coordinate: coordinate,
+                            title: firstItem.name ?? "Unknown Location"
+                        )
+                    )
+                }
+            }
+        }
+    }
+}
+
+struct MapAnnotation: Identifiable {
+    let id = UUID()
+    let coordinate: CLLocationCoordinate2D
+    let title: String
 }
 
 #Preview {
