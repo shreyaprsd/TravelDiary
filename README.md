@@ -28,8 +28,6 @@ Travel Diary is designed to be your ultimate travel companion, offering a seamle
 
 ### 🗺️ Interactive Maps
 - **MapKit Integration**: Visual trip planning with interactive maps
-- **World Map Visualization**: Track your travel progress on a world map
-- **Location Context**: Enhanced trip planning with geographical awareness
 
 ### 📱 User Experience
 - **Multi-tab Interface**: Intuitive navigation across Trip List, Map, Profile, and Share sections
@@ -40,7 +38,7 @@ Travel Diary is designed to be your ultimate travel companion, offering a seamle
 ### 💾 Data Management
 - **SwiftData Integration**: Efficient local data storage and management
 - **Firebase Firestore**: Cloud synchronization for photos and trip details
-- **Cross-device Sync**: Access your data across multiple devices
+
 
 ## Technical Architecture
 
@@ -77,24 +75,15 @@ Travel Diary is designed to be your ultimate travel companion, offering a seamle
 - Xcode 14.0+
 - Firebase project setup
 - ExchangeRate API key
-
+ 
 ### Configuration
 1. Clone the repository
-2. Configure Firebase with your project
+2. Configure Firebase with your project. Download the GoogleServices-Info.plist to the root of your project.
 3. Add your ExchangeRate API key
-4. Build and run on iOS device or simulator
+4. Install Firebase SDK and the Google sign-in SDK in Xcode. Below are the links to the SDK
+    https://github.com/firebase/firebase-ios-sdk
+    https://github.com/google/GoogleSignIn-iOS
+6. Build and run on an iOS device or simulator
 
-## Privacy & Security
 
-- Secure Firebase Authentication
-- Encrypted data transmission
-- Local data protection with SwiftData
-- Privacy-focused design principles
 
-## Support & Feedback
-
-Travel Diary is designed to make trip planning and memory keeping effortless. Whether you're a frequent traveler or planning your first adventure, the app adapts to your needs with intuitive design and powerful features.
-
----
-
-*Built with ❤️ for travelers who want to make the most of their journeys*
