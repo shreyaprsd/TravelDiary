@@ -70,3 +70,4 @@ iOSInjectionProject/
 
 # Ignore firebase config
 GoogleService-Info.plist
+/GoogleService-Info.plist
