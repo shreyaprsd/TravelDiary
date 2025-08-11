@@ -29,6 +29,7 @@ struct ContentView: View {
         }
     }
 }
+
 #Preview {
     ContentView(viewModel: AuthViewModel())
 }

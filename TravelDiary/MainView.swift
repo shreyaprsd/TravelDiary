@@ -37,7 +37,8 @@ struct MainView: View {
             .tabItem {
                 Label("Map", systemImage: "map")
             }
-            .tag(3)
+            .tag(2)
+            
             NavigationStack {
                 InviteView()
                     .navigationTitle("Invite Friends")
@@ -45,7 +46,7 @@ struct MainView: View {
             .tabItem {
                 Label("Invite", systemImage: "square.and.arrow.up")
             }
-            .tag(4)
+            .tag(3)
         }
     }
 }
