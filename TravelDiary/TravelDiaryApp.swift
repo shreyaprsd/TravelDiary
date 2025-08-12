@@ -7,6 +7,7 @@
 
 import FirebaseCore
 import SwiftUI
+import SwiftData
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(
@@ -26,6 +27,7 @@ struct TravelDiaryApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(viewModel: viewModel)
+            .modelContainer(for: TripModel.self)
         }
     }
 }
