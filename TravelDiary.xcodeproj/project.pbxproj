@@ -14,7 +14,7 @@
 		35BB53F52E45EB2700E20C1D /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 35BB53F42E45EB2700E20C1D /* FirebaseStorage */; };
 		35BB53F82E45F52C00E20C1D /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 35BB53F72E45F52C00E20C1D /* GoogleSignIn */; };
 		35BB53FA2E45F52C00E20C1D /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 35BB53F92E45F52C00E20C1D /* GoogleSignInSwift */; };
-		35BB54B62E487F8C00E20C1D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35BB54B52E487F8C00E20C1D /* GoogleService-Info.plist */; };
+		35E885442E4C576A00B63BB0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35BB54B52E487F8C00E20C1D /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -153,7 +153,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35BB54B62E487F8C00E20C1D /* GoogleService-Info.plist in Resources */,
+				35E885442E4C576A00B63BB0 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
