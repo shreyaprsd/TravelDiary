@@ -7,14 +7,13 @@
 import SwiftUI
 
 struct MainView: View {
-    @StateObject  var viewModel : AuthViewModel
+    @StateObject var viewModel: AuthViewModel
     @State private var selectedIndex: Int = 0
 
     var body: some View {
         TabView(selection: $selectedIndex) {
             NavigationStack {
                 HomeView()
-                    .navigationTitle("Home")
             }
             .tabItem {
                 Label("Home", systemImage: "house")
@@ -38,7 +37,7 @@ struct MainView: View {
                 Label("Map", systemImage: "map")
             }
             .tag(2)
-            
+
             NavigationStack {
                 InviteView()
                     .navigationTitle("Invite Friends")
@@ -53,4 +52,5 @@ struct MainView: View {
 
 #Preview {
     MainView(viewModel: AuthViewModel())
+        .modelContainer(for: TripModel.self, inMemory: true)
 }

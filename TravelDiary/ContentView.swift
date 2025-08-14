@@ -17,13 +17,10 @@ struct ContentView: View {
             case .authenticating:
                 ProgressView("Signing in ..")
                     .progressViewStyle(CircularProgressViewStyle())
-    
             case .authenticated:
                 MainView(viewModel: viewModel)
             }
-            
         }
-        .padding()
         .onAppear {
             viewModel.registerAuthStateHandler()
         }
