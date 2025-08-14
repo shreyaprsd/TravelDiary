@@ -28,6 +28,7 @@ struct TravelDiaryApp: App {
         WindowGroup {
             ContentView(viewModel: viewModel)
             .modelContainer(for: TripModel.self)
+            .modelContainer(for: TripDetailsModel.self)
         }
     }
 }

@@ -7,16 +7,19 @@
 
 import Foundation
 import SwiftData
+import PhotosUI
 
 @Model
 class TripModel {
     @Attribute(.unique) var id = UUID()
+    var headerImage: Data?
     var destination: String
     var startDate : Date
     var budgetEstimate : Double
     var status : TripStatus
-    init(id: UUID = UUID(), destination: String, startDate: Date, budgetEstimate: Double, status: TripStatus) {
+    init(id: UUID = UUID(),headerImage:Data? = nil, destination: String, startDate: Date, budgetEstimate: Double, status: TripStatus) {
         self.id = id
+        self.headerImage = headerImage
         self.destination = destination
         self.startDate = startDate
         self.budgetEstimate = budgetEstimate
