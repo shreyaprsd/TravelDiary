@@ -10,18 +10,17 @@ import SwiftUI
 struct ProfileView: View {
     @StateObject var viewModel: AuthViewModel
     var body: some View {
-        VStack(spacing: 30) {
-            Image(systemName: "person.circle.fill")
-                .resizable()
-                .frame(width: 50, height: 50, alignment: .center)
+        VStack(spacing: 20) {
             Text("User : \(viewModel.displayName)")
-                .font(.headline)
+                .font(.largeTitle)
+            ProfileImageView()
             Button("Sign Out") {
                 viewModel.signOut()
             }
             .buttonStyle(.borderedProminent)
             .tint(.red)
         }
+        Spacer()
     }
 }
 

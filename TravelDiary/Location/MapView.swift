@@ -62,7 +62,7 @@ struct MapView: View {
             Map(coordinateRegion: $region, annotationItems: annotations) {
                 annotation in
                 MapMarker(coordinate: annotation.coordinate, tint: .red)
-            }
+           }
             .onTapGesture {
                 hideKeyboard()
             }

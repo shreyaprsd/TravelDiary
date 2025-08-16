@@ -11,12 +11,14 @@ import SwiftData
 @Model
 class TripDetailsModel {
     var destination: String
-    var image: Data
+    var image: Data?
     var days: Int
     var notes : String
     var estimatedBudget: Double
     var budgetSpent : Double
-    init(destination: String, image: Data, days: Int, notes: String, estimatedBudget: Double, budgetSpent: Double) {
+    
+    @Relationship var trip : TripModel?
+    init(destination: String, image: Data?, days: Int, notes: String, estimatedBudget: Double, budgetSpent: Double) {
         self.destination = destination
         self.image = image
         self.days = days
