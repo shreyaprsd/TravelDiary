@@ -32,12 +32,16 @@ struct HomeView: View {
                 }
                 .padding()
             } else {
-                List {
-                    ForEach(trips, id: \.id) { trip in
-                        TripRowView(trip: trip)
-                    }
-                    .onDelete { offsets in
-                        let _ = viewModel.deleteTrips(from: trips, at: offsets)
+                NavigationView{
+                    List {
+                        ForEach(trips, id: \.id) { trip in
+                            NavigationLink( destination: TripSpecifics(selectedTrip: trip)){
+                                TripRowView(trip: trip)
+                            }
+                        }
+                        .onDelete { offsets in
+                            let _ = viewModel.deleteTrips(from: trips, at: offsets)
+                        }
                     }
                 }
             }
@@ -58,8 +62,9 @@ struct HomeView: View {
         .onAppear {
             print("HomeView appeared, trips count: \(trips.count)")
         }
+        }
     }
-}
+
 
 #Preview {
     HomeView()

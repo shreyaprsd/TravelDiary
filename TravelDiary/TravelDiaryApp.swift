@@ -27,7 +27,7 @@ struct TravelDiaryApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(viewModel: viewModel)
-                .modelContainer(for: [TripModel.self, TripDetailsModel.self,UserProfile.self])
+                .modelContainer(for: [TripModel.self, UserProfile.self])
           
         }
     }

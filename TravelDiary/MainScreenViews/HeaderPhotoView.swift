@@ -11,7 +11,7 @@ import SwiftUI
 struct HeaderPhotoView: View {
     @State var viewModel = HeaderPhotoViewModel()
     var body: some View {
-        VStack(spacing: 10) {
+        VStack {
             PhotosPicker(
                 "Select a header photo",
                 selection: $viewModel.selectedPhotos,
@@ -33,9 +33,7 @@ struct HeaderPhotoView: View {
                 }
 
             }
-
         }
-        Spacer()
     }
 
 }
