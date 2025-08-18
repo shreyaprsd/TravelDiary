@@ -10,11 +10,11 @@ import SwiftData
 
 @Observable
 class TripViewModel {
-     var modelContext : ModelContext
+    var modelContext: ModelContext
     init(modelContext: ModelContext) {
         self.modelContext = modelContext
     }
-    
+
     func addTrip(
         destination: String,
         startDate: Date,
@@ -24,21 +24,21 @@ class TripViewModel {
         guard !destination.isEmpty else {
             return .failure(.invalidDestination)
         }
-        
+
         guard budgetEstimate >= 0 || budgetEstimate <= 0 else {
             return .failure(.invalidBudget)
         }
-        
+
         let newTrip = TripModel(
             destination: destination,
             startDate: startDate,
             budgetEstimate: budgetEstimate,
             status: status
         )
-        
+
         print("Attempting to save trip: \(newTrip.destination)")
         modelContext.insert(newTrip)
-        
+
         do {
             try modelContext.save()
             print("Trip saved successfully!")
@@ -48,24 +48,54 @@ class TripViewModel {
             return .failure(.saveError(error))
         }
     }
-    
-    func deleteTrips(from trips: [TripModel], at offsets: IndexSet) -> Result<Void, TripDataError> {
-           for index in offsets {
-               modelContext.delete(trips[index])
-           }
-           do {
-               try modelContext.save()
-               print("Trips deleted successfully!")
-               return .success(())
-           } catch {
-               print("Error deleting trips: \(error)")
-               return .failure(.deleteError(error))
-           }
-       }
-    
+
+    func updateTripDetails(
+        _ trip: TripModel,
+        headerImage: Data?,
+        days: Int,
+        notes: String,
+        budgetSpent: Double
+    ) -> Result<TripModel, TripDataError> {
+
+        if let headerImage = headerImage {
+            trip.headerImage = headerImage
+        }
+        trip.days = days
+        trip.notes = notes
+        trip.budgetSpent = budgetSpent
+
+        print("Attempting to update trip details for: \(trip.destination)")
+
+        do {
+            try modelContext.save()
+            print("Trip details updated successfully!")
+            return .success(trip)
+        } catch {
+            print("Error updating trip: \(error)")
+            return .failure(.saveError(error))
+        }
+    }
+
+    func deleteTrips(from trips: [TripModel], at offsets: IndexSet) -> Result<
+        Void, TripDataError
+    > {
+        for index in offsets {
+            modelContext.delete(trips[index])
+        }
+        do {
+            try modelContext.save()
+            print("Trips deleted successfully!")
+            return .success(())
+        } catch {
+            print("Error deleting trips: \(error)")
+            return .failure(.deleteError(error))
+        }
+    }
+
     enum TripDataError: LocalizedError {
         case invalidDestination
         case invalidBudget
+        case noImageData
         case saveError(Error)
         case deleteError(Error)
 
@@ -75,6 +105,8 @@ class TripViewModel {
                 return "Please enter a valid destination"
             case .invalidBudget:
                 return "Please enter a valid budget amount"
+            case .noImageData:
+                return "Please select an image"
             case .saveError(let error):
                 return "Failed to save trip: \(error.localizedDescription)"
             case .deleteError(let error):
