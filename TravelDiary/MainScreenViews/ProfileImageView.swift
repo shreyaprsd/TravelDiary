@@ -21,51 +21,57 @@ struct ProfileImageView: View {
     @State private var selectedImage: UIImage? = nil
     @State private var photosPickerItem: PhotosPickerItem? = nil
     @State private var showingImagePicker = false
-
+    @State var editingPhotoAlert = false
     private var currentProfile: UserProfile? {
         return userProfiles.first
     }
 
     var body: some View {
         VStack(spacing: 20) {
-            ZStack {
-                Circle()
-                    .fill(Color.gray.opacity(0.3))
-                    .frame(width: 120, height: 120)
-
+            ZStack(alignment: .bottomTrailing) {
                 if let selectedImage = selectedImage {
                     Image(uiImage: selectedImage)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 120, height: 120)
                         .clipShape(Circle())
+
                 } else {
                     Image(systemName: "person.circle.fill")
-                        .font(.system(size: 60))
+
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 120, height: 120)
+                        .clipShape(Circle())
+                        .foregroundStyle(.gray)
+                }
+
+                Button(action: {
+
+                    editingPhotoAlert = true
+                }) {
+                    Image(systemName: "pencil.circle.fill")
+                        .font(.title2)
                         .foregroundColor(.gray)
+                        .background(Color.white)
+                        .clipShape(Circle())
                 }
+                .offset(x: -5, y: -5)
             }
-
-            VStack {
-                Text(
-                    "Updated at: \(currentProfile?.updatedAt ?? .now  , style: .date)"
-                )
-                HStack {
-                    Button("Select Photo") {
-                        showingImagePicker = true
-                    }
-                    .buttonStyle(.borderedProminent)
-
-                    if selectedImage != nil {
-                        Button("Remove Photo") {
-                            removeProfileImage()
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .tint(.red)
-                    }
-                }
-            }
+            .padding(10)
         }
+        .alert(
+            "Edit ProfileImage",
+            isPresented: $editingPhotoAlert,
+            actions: {
+                Button("Change") {
+                    showingImagePicker = true
+                }
+                Button("Remove") {
+                    removeProfileImage()
+                }
+            }
+        )
         .padding()
         .navigationTitle("Profile")
         .photosPicker(

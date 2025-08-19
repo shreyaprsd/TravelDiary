@@ -32,8 +32,8 @@ struct TripSpecifics: View {
                         showingDaysInputAlert = true
                     }
                     .buttonStyle(.bordered)
-
                 }
+
                 HeaderPhotoView(selectedImageData: $headerImage)
                 Section {
                     Button("Add money spent") {

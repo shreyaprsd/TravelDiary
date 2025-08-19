@@ -9,11 +9,19 @@ import SwiftUI
 
 struct ProfileView: View {
     @StateObject var viewModel: AuthViewModel
+
     var body: some View {
-        VStack(spacing: 20) {
-            Text("User : \(viewModel.displayName)")
-                .font(.largeTitle)
-            ProfileImageView()
+        VStack(spacing: 60) {
+            HStack(alignment: .top) {
+                HStack {
+                    ProfileImageView()
+                    Text("\(viewModel.displayName)")
+                        .font(.title2)
+                        .fontWeight(.medium)
+                }
+                Spacer()
+            }
+
             Button("Sign Out") {
                 viewModel.signOut()
             }

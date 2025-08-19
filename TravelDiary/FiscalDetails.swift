@@ -20,7 +20,7 @@ struct FiscalDetails: View {
                 "Percentage of money left: \(selectedTrip.percentageOfMoneyLeft.twoDecimalPlacesNoTrailingZeros)%"
             )
         }
-        .padding(30)
+        .padding(50)
         .background(Color(.systemBackground))
         .cornerRadius(12)
         .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
