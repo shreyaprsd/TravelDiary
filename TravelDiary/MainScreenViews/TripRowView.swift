@@ -27,12 +27,19 @@ struct TripRowView: View {
                 .font(.caption)
                 .foregroundColor(.secondary)
         }
-        .padding(.vertical, 4)
     }
 }
 
 #Preview {
     TripRowView(
-        trip: TripModel(destination: "London", startDate: .now, budgetEstimate: 7890, status: .planned, days: 8, notes: "abcd", budgetSpent: 890)
+        trip: TripModel(
+            destination: "London",
+            startDate: .now,
+            budgetEstimate: 7890,
+            status: .planned,
+            days: 8,
+            notes: "abcd",
+            budgetSpent: 890
+        )
     )
 }

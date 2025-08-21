@@ -38,7 +38,6 @@ struct ProfileImageView: View {
 
                 } else {
                     Image(systemName: "person.circle.fill")
-
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 120, height: 120)

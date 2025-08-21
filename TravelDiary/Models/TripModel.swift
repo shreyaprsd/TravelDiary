@@ -33,7 +33,7 @@ class TripModel {
         budgetEstimate: Double,
         status: TripStatus,
         headerImage: Data? = nil,
-        days: Int = 0,
+        days: Int ,
         notes: String = "",
         budgetSpent: Double = 0.0
     ) {

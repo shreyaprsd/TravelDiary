@@ -22,33 +22,33 @@ struct HeaderPhotoView: View {
                 ) {
                     Text("Select a header photo")
                         .foregroundColor(.blue)
-                        .padding()
-                        .background(Color.gray.opacity(0.2))
-                        .cornerRadius(8)
                 }
             } else {
-                if let image = headerPhotoViewModel.images.first {
-                    Image(uiImage: image)
-                        .resizable()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(height: 200)
-                        .clipped()
-                        .cornerRadius(12)
-                        .onAppear {
-                            selectedImageData = image.jpegData(
-                                compressionQuality: 0.8
-                            )
-                        }
-                }
+                ZStack(alignment: .bottomTrailing) {
+                    if let image = headerPhotoViewModel.images.first {
+                        Image(uiImage: image)
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(height: 300)
+                            .clipped()
+                            .ignoresSafeArea(edges: .top)
+                            .onAppear {
+                                selectedImageData = image.jpegData(
+                                    compressionQuality: 0.8
+                                )
+                            }
+                    }
 
-                PhotosPicker(
-                    selection: $headerPhotoViewModel.selectedPhotos,
-                    maxSelectionCount: 1,
-                    matching: .images
-                ) {
-                    Text("Change Photo")
-                        .foregroundColor(.blue)
-                        .padding(.top, 8)
+                    PhotosPicker(
+                        selection: $headerPhotoViewModel.selectedPhotos,
+                        maxSelectionCount: 1,
+                        matching: .images
+                    ) {
+                        Image(systemName: "pencil.circle.fill")
+                            .font(.system(size: 30))
+                            .foregroundColor(.white)
+                    }
+                    .padding(24)
                 }
             }
         }
@@ -57,7 +57,6 @@ struct HeaderPhotoView: View {
                 await headerPhotoViewModel.convertDataToImage()
             }
         }
-
         .onAppear {
             if let existingImageData = selectedImageData,
                 let existingImage = UIImage(data: existingImageData)

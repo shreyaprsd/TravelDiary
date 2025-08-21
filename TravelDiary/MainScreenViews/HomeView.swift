@@ -32,7 +32,6 @@ struct HomeView: View {
                 }
                 .padding()
             } else {
-                NavigationView{
                     List {
                         ForEach(trips, id: \.id) { trip in
                             NavigationLink( destination: TripSpecifics(selectedTrip: trip)){
@@ -43,7 +42,6 @@ struct HomeView: View {
                             let _ = viewModel.deleteTrips(from: trips, at: offsets)
                         }
                     }
-                }
             }
         }
         .navigationTitle("Trips 🧳")

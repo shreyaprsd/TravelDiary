@@ -10,113 +10,81 @@ import SwiftUI
 struct TripSpecifics: View {
     @State var selectedTrip: TripModel
     @Environment(\.modelContext) var modelContext
-    @State var showingBudgetInputAlert = false
-    @State var budgetSpentInput = ""
-    @State var daysInput = ""
-    @State var showingDaysInputAlert = false
+    @State var showingBudgetView = false
     @State private var headerImage: Data? = nil
+    @State private var budgetSpentInput = ""
+    @State var saveInfo = false
     private var viewModel: TripViewModel {
         TripViewModel(modelContext: modelContext)
     }
+
     var body: some View {
-        ScrollView {
-            VStack(spacing: 30) {
-                Text("📍\(selectedTrip.destination)")
-                    .font(.title)
-                    .fontWeight(.bold)
+        ZStack {
+            ScrollView {
+                VStack {
+                    HeaderPhotoView(selectedImageData: $headerImage)
+                        .frame(height: 300)
+                        .ignoresSafeArea(edges: .top)
+                        .clipped()
+                        .padding(.vertical, 16)
 
-                HStack(spacing: 25) {
-                    Text("Duration 🗓️ : \(selectedTrip.days) days")
-                        .font(.title2)
-                    Button("Add Days") {
-                        showingDaysInputAlert = true
-                    }
-                    .buttonStyle(.bordered)
-                }
-
-                HeaderPhotoView(selectedImageData: $headerImage)
-                Section {
-                    Button("Add money spent") {
-                        showingBudgetInputAlert = true
-                    }
-                    .buttonStyle(.bordered)
-                    FiscalDetails(selectedTrip: selectedTrip)
-                } header: {
-                    Text("Fiscal Details")
-                        .font(.system(size: 24))
-                        .fontWeight(.bold)
-                }
-
-                Section {
-                    TripSpecificNotes(selectedTrip: selectedTrip)
-                } header: {
-                    Text("Notes")
-                        .font(.system(size: 24))
-                        .fontWeight(.bold)
+                    TripTextSpecifics(
+                        selectedTrip: selectedTrip,
+                        budgetSpentInput: $budgetSpentInput
+                    )
+                    .padding(12)
+                    .background(Color(.systemBackground))
+                    .offset(y: -20)
                 }
             }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 10)
-        }
-        .alert("Add expenses", isPresented: $showingBudgetInputAlert) {
-            TextField("Enter amount spent", text: $budgetSpentInput)
-                .keyboardType(.decimalPad)
-            Button("Cancel", role: .cancel) {}
-            Button("Add") {
-                if let amount = Double(budgetSpentInput), amount > 0 {
-                    selectedTrip.budgetSpent += amount
-                }
-                budgetSpentInput = ""
-            }
+            .blur(radius: showingBudgetView ? 5 : 0)
 
-        }
-        .alert("Add days", isPresented: $showingDaysInputAlert) {
-            TextField("", text: $daysInput)
-                .keyboardType(.decimalPad)
-            Button("Cancel", role: .cancel) {}
-            Button("Add") {
-                if Int(daysInput) != nil {
-                    selectedTrip.days = Int(daysInput) ?? 0
-                }
-                daysInput = ""
+            if showingBudgetView {
+                FiscalDetails(
+                    selectedTrip: selectedTrip,
+                    showingBudgetView: $showingBudgetView
+                )
             }
         }
-        Button("Save Info") {
-            let result = viewModel.updateTripDetails(
-                selectedTrip,
-                headerImage: headerImage,
-                days: selectedTrip.days,
-                notes: selectedTrip.notes,
-                budgetSpent: selectedTrip.budgetSpent
-            )
-
-            switch result {
-            case .success:
-                print("Trip details added!")
-            case .failure(let error):
-                print("Error saving details: \(error.localizedDescription)")
-            }
-        }
-        .buttonStyle(.bordered)
-        .padding()
         .onAppear {
             headerImage = selectedTrip.headerImage
+
+        }
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbarBackground(.clear, for: .navigationBar)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("Budget") {
+                    showingBudgetView = true
+                }
+                .buttonStyle(.bordered)
+            }
+
+            ToolbarItem(placement: .primaryAction) {
+                Button("Save") {
+                    saveTrip()
+                }
+                .buttonStyle(.bordered)
+            }
         }
     }
-}
 
-#Preview {
-    TripSpecifics(
-        selectedTrip: TripModel(
-            destination: "London",
-            startDate: .now,
-            budgetEstimate: 900,
-            status: .completed,
-            days: 9,
-            notes: "",
-            budgetSpent: 100
+    private func saveTrip() {
+        if let amount = Double(budgetSpentInput) {
+            selectedTrip.budgetSpent = amount
+        }
+        let result = viewModel.updateTripDetails(
+            selectedTrip,
+            headerImage: headerImage,
+            notes: selectedTrip.notes,
+            budgetSpent: selectedTrip.budgetSpent
         )
-    )
 
-    .modelContainer(for: TripModel.self, inMemory: true)
+        switch result {
+        case .success:
+            print("Trip details added!")
+        case .failure(let error):
+            print("Error saving details: \(error.localizedDescription)")
+        }
+    }
 }

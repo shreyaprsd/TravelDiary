@@ -13,6 +13,7 @@ struct AddTripView: View {
     @Environment(\.dismiss) var dismiss
     @State private var destination = ""
     @State private var startDate = Date()
+    @State private var duration : Int? = nil
     @State private var budgetEstimate : Double? = nil
     @State private var selectedStatus = TripStatus.planned
     
@@ -30,6 +31,8 @@ struct AddTripView: View {
                         selection: $startDate,
                         displayedComponents: .date
                     )
+                    TextField("Trip duration (in days)", value: $duration, format: .number)
+                        .keyboardType(.decimalPad)
                     
                     TextField("Budget Estimate", value: $budgetEstimate, format: .number)
                         .keyboardType(.decimalPad)
@@ -70,7 +73,7 @@ struct AddTripView: View {
         let result = tripViewModel.addTrip(
             destination: destination,
             startDate: startDate,
-            budgetEstimate: budgetEstimate ?? 0.0,
+            budgetEstimate: budgetEstimate ?? 0.0, days: duration ?? 0,
             status: selectedStatus
         )
         

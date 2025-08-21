@@ -19,6 +19,7 @@ class TripViewModel {
         destination: String,
         startDate: Date,
         budgetEstimate: Double,
+        days:Int,
         status: TripStatus
     ) -> Result<TripModel, TripDataError> {
         guard !destination.isEmpty else {
@@ -33,7 +34,7 @@ class TripViewModel {
             destination: destination,
             startDate: startDate,
             budgetEstimate: budgetEstimate,
-            status: status
+            status: status, days: days,
         )
 
         print("Attempting to save trip: \(newTrip.destination)")
@@ -52,7 +53,6 @@ class TripViewModel {
     func updateTripDetails(
         _ trip: TripModel,
         headerImage: Data?,
-        days: Int,
         notes: String,
         budgetSpent: Double
     ) -> Result<TripModel, TripDataError> {
@@ -60,7 +60,6 @@ class TripViewModel {
         if let headerImage = headerImage {
             trip.headerImage = headerImage
         }
-        trip.days = days
         trip.notes = notes
         trip.budgetSpent = budgetSpent
 
@@ -92,7 +91,7 @@ class TripViewModel {
         }
     }
 
-    enum TripDataError: LocalizedError {
+    enum TripDataError: Error {
         case invalidDestination
         case invalidBudget
         case noImageData
