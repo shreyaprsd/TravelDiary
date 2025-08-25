@@ -2,6 +2,8 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>EXCHANGE_API_KEY</key>
+	<string>$(EXCHANGE_API_KEY)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -12,6 +14,7 @@
 				<string>com.googleusercontent.apps.642133734509-0amki0nvjnqpdjhmadqik30ncjssf5mr</string>
 			</array>
 		</dict>
+		<dict/>
 	</array>
 	<key>GIDClientID</key>
 	<string>

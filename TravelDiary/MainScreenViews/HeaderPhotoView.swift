@@ -20,18 +20,28 @@ struct HeaderPhotoView: View {
                     maxSelectionCount: 1,
                     matching: .images
                 ) {
-                    Text("Select a header photo")
-                        .foregroundColor(.blue)
+                    RoundedRectangle(cornerRadius: 25)
+                        .fill(Color.gray.opacity(0.1))
+                        .frame(width: 375, height: 400)
+                        .overlay(
+                            VStack(spacing: 8) {
+                                Image(systemName: "photo.badge.plus")
+                                    .font(.system(size: 40))
+                                    .foregroundColor(.gray)
+                                Text("Select a header photo")
+                                    .foregroundColor(.blue)
+                                    .font(.headline)
+                            }
+                        )
+                        .padding()
                 }
             } else {
                 ZStack(alignment: .bottomTrailing) {
                     if let image = headerPhotoViewModel.images.first {
                         Image(uiImage: image)
                             .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(height: 300)
-                            .clipped()
-                            .ignoresSafeArea(edges: .top)
+                            .frame(width: 375, height: 400)
+                            .clipShape(RoundedRectangle(cornerRadius: 25))
                             .onAppear {
                                 selectedImageData = image.jpegData(
                                     compressionQuality: 0.8
@@ -46,10 +56,12 @@ struct HeaderPhotoView: View {
                     ) {
                         Image(systemName: "pencil.circle.fill")
                             .font(.system(size: 30))
-                            .foregroundColor(.white)
+                            .foregroundStyle(Color.white)
                     }
-                    .padding(24)
+                    .padding(.bottom, 20)
+                    .padding(.trailing, 20)
                 }
+                .padding(12)
             }
         }
         .onChange(of: headerPhotoViewModel.selectedPhotos) { _, _ in

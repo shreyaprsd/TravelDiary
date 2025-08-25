@@ -35,7 +35,6 @@ struct ProfileImageView: View {
                         .aspectRatio(contentMode: .fill)
                         .frame(width: 120, height: 120)
                         .clipShape(Circle())
-
                 } else {
                     Image(systemName: "person.circle.fill")
                         .resizable()
@@ -46,12 +45,11 @@ struct ProfileImageView: View {
                 }
 
                 Button(action: {
-
                     editingPhotoAlert = true
                 }) {
                     Image(systemName: "pencil.circle.fill")
                         .font(.title2)
-                        .foregroundColor(.gray)
+                        .foregroundStyle(Color.gray)
                         .background(Color.white)
                         .clipShape(Circle())
                 }

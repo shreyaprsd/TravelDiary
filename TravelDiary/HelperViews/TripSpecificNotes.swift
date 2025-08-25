@@ -16,16 +16,16 @@ struct TripSpecificNotes: View {
         }
         ZStack {
             TextEditor(text: $selectedTrip.notes)
-                .padding(.horizontal, 12)
+                .padding()
             if selectedTrip.notes.isEmpty {
                 Text("Write whatever is in your mind about this trip...")
                     .foregroundColor(.secondary)
             }
         }
-
+        .frame(width: 375, height: 275)
         .background(Color(.systemBackground))
         .cornerRadius(12)
-        .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 2)
+        .shadow(color: Color.black.opacity(0.4), radius: 2, x: 0, y: 2)
     }
 }
 

@@ -22,11 +22,10 @@ struct ProfileView: View {
                 Spacer()
             }
 
-            Button("Sign Out") {
+            Button("Sign Out", role: .destructive) {
                 viewModel.signOut()
             }
             .buttonStyle(.borderedProminent)
-            .tint(.red)
         }
         Spacer()
     }

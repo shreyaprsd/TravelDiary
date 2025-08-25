@@ -71,3 +71,8 @@ iOSInjectionProject/
 # Ignore firebase config
 GoogleService-Info.plist
 /GoogleService-Info.plist
+
+Config.xcconfig
+# Xcode Config Files
+*.xcconfig
+

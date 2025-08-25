@@ -13,10 +13,10 @@ struct FiscalDetails: View {
     var body: some View {
         VStack(spacing: 12) {
             Text(
-                "Estimated budget : $\(selectedTrip.budgetEstimate.twoDecimalString)"
+                "Estimated budget: $\(selectedTrip.budgetEstimate.twoDecimalString)"
             )
-            Text("Budget spent : $\(selectedTrip.budgetSpent.twoDecimalString)")
-            Text("Money left : $\(selectedTrip.moneyleft.twoDecimalString)")
+            Text("Budget spent: $\(selectedTrip.budgetSpent.twoDecimalString)")
+            Text("Money left: $\(selectedTrip.moneyleft.twoDecimalString)")
             Text(
                 "Percentage of money left: \(selectedTrip.percentageOfMoneyLeft.twoDecimalPlacesNoTrailingZeros)%"
             )
@@ -26,7 +26,7 @@ struct FiscalDetails: View {
                 Text("Back")
             }
         }
-        
+
         .padding(40)
         .background(Color(.systemBackground))
         .cornerRadius(12)

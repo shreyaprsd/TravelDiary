@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import TipKit
 
 struct TripSpecifics: View {
     @State var selectedTrip: TripModel
@@ -13,7 +14,7 @@ struct TripSpecifics: View {
     @State var showingBudgetView = false
     @State private var headerImage: Data? = nil
     @State private var budgetSpentInput = ""
-    @State var saveInfo = false
+    @State private var saveInfoAlert = false
     private var viewModel: TripViewModel {
         TripViewModel(modelContext: modelContext)
     }
@@ -23,18 +24,16 @@ struct TripSpecifics: View {
             ScrollView {
                 VStack {
                     HeaderPhotoView(selectedImageData: $headerImage)
-                        .frame(height: 300)
-                        .ignoresSafeArea(edges: .top)
-                        .clipped()
-                        .padding(.vertical, 16)
+                        .frame(width: 375, height: 400)
+                        .clipShape(RoundedRectangle(cornerRadius: 25))
 
                     TripTextSpecifics(
                         selectedTrip: selectedTrip,
-                        budgetSpentInput: $budgetSpentInput
+                        budgetSpentInput: $budgetSpentInput,
+                        showBudgetView: $showingBudgetView
                     )
                     .padding(12)
                     .background(Color(.systemBackground))
-                    .offset(y: -20)
                 }
             }
             .blur(radius: showingBudgetView ? 5 : 0)
@@ -48,28 +47,25 @@ struct TripSpecifics: View {
         }
         .onAppear {
             headerImage = selectedTrip.headerImage
-
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbarBackground(.clear, for: .navigationBar)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
-                Button("Budget") {
-                    showingBudgetView = true
-                }
-                .buttonStyle(.bordered)
-            }
-
-            ToolbarItem(placement: .primaryAction) {
                 Button("Save") {
-                    saveTrip()
+                    saveTripInfo()
+                    saveInfoAlert = true
                 }
-                .buttonStyle(.bordered)
             }
+        }
+        .alert("Saved", isPresented: $saveInfoAlert) {
+            //empty to use the default OK button
+        } message: {
+            Text("Trip details saved!")
         }
     }
 
-    private func saveTrip() {
+    private func saveTripInfo() {
         if let amount = Double(budgetSpentInput) {
             selectedTrip.budgetSpent = amount
         }
@@ -87,4 +83,16 @@ struct TripSpecifics: View {
             print("Error saving details: \(error.localizedDescription)")
         }
     }
+}
+
+#Preview {
+    TripSpecifics(
+        selectedTrip: TripModel(
+            destination: "Goa",
+            startDate: .now,
+            budgetEstimate: 6789,
+            status: .inProgress,
+            days: 8
+        )
+    )
 }

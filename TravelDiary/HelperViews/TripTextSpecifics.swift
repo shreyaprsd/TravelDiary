@@ -6,28 +6,45 @@
 //
 
 import SwiftUI
+import TipKit
 
 struct TripTextSpecifics: View {
     @State var selectedTrip: TripModel
     @Environment(\.modelContext) var modelContext
     @Binding var budgetSpentInput: String
+    @Binding var showBudgetView: Bool
+    private let helperTip = HelperTips()
     private var viewModel: TripViewModel {
         TripViewModel(modelContext: modelContext)
     }
     var body: some View {
         VStack(spacing: 16) {
+
             Text("📍\(selectedTrip.destination)")
-                .font(.title2)
+                .font(.largeTitle)
                 .fontWeight(.semibold)
 
             Text("Duration: \(selectedTrip.days) days")
-                .font(.subheadline)
+                .font(.headline)
                 .foregroundStyle(.secondary)
+            Divider()
 
-            TextField("Enter Expenditure", text: $budgetSpentInput)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .keyboardType(.decimalPad)
-                .padding(.horizontal, 12)
+            VStack(spacing: 8) {
+
+                TextField("Enter expenditure", text: $budgetSpentInput)
+                    .textFieldStyle(.roundedBorder)
+                    .frame(width: 375)
+                    .keyboardType(.decimalPad)
+                    .padding()
+
+                Button {
+                    showBudgetView = true
+                } label: {
+                    Text("View Fiscal Details")
+                }
+            }
+            .popoverTip(helperTip)
+            Divider()
 
             TripSpecificNotes(selectedTrip: selectedTrip)
         }

@@ -8,6 +8,7 @@
 import FirebaseCore
 import SwiftUI
 import SwiftData
+import TipKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(
@@ -28,7 +29,24 @@ struct TravelDiaryApp: App {
         WindowGroup {
             ContentView(viewModel: viewModel)
                 .modelContainer(for: [TripModel.self, UserProfile.self])
-          
+         
         }
     }
+    init() {
+            do{
+                try Tips.resetDatastore()
+                try Tips.configure([
+                    .displayFrequency(.immediate),
+                    .datastoreLocation(.applicationDefault)
+                ])
+                
+            }
+            catch{
+                print("Error initialising tip kit \(error.localizedDescription)")
+                    
+                }
+            
+        }
+    
+   
 }
