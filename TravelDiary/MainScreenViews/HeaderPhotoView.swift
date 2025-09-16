@@ -35,6 +35,7 @@ struct HeaderPhotoView: View {
               .resizable()
               .frame(width: 402, height: 211)
               .clipShape(RoundedRectangle(cornerRadius: 25))
+              .blur(radius: isEditing ? 5 : 0)
               .onAppear {
                 selectedImageData = image.jpegData(
                   compressionQuality: 0.8
