@@ -79,7 +79,9 @@ class TripViewModel {
     Void, TripDataError
   > {
     for index in offsets {
-      modelContext.delete(trips[index])
+      let trip = trips[index]
+      modelContext.delete(trip)
+      print("Deleted destination: \(trip.destinationName)")
     }
     do {
       try modelContext.save()

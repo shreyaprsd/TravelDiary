@@ -13,7 +13,7 @@ class DestinationModel: Identifiable {
   var name: String
   var latitude: Double?
   var longitude: Double?
-
+  @Relationship(deleteRule: .cascade, inverse: \TripModel.destination) var trips: [TripModel]?
   init(name: String, latitude: Double? = nil, longitude: Double? = nil) {
     self.name = name
     self.latitude = latitude

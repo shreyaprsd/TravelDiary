@@ -14,7 +14,7 @@
 		35BB53F52E45EB2700E20C1D /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 35BB53F42E45EB2700E20C1D /* FirebaseStorage */; };
 		35BB53F82E45F52C00E20C1D /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 35BB53F72E45F52C00E20C1D /* GoogleSignIn */; };
 		35BB53FA2E45F52C00E20C1D /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 35BB53F92E45F52C00E20C1D /* GoogleSignInSwift */; };
-		35E885442E4C576A00B63BB0 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35BB54B52E487F8C00E20C1D /* GoogleService-Info.plist */; };
+		35BB54B62E487F8C00E20C1D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 35BB54B52E487F8C00E20C1D /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -153,7 +153,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35E885442E4C576A00B63BB0 /* GoogleService-Info.plist in Resources */,
+				35BB54B62E487F8C00E20C1D /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -172,8 +172,6 @@
 /* Begin XCBuildConfiguration section */
 		35BB53C82E45E42E00E20C1D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = 35BB53C12E45E42C00E20C1D /* TravelDiary */;
-			baseConfigurationReferenceRelativePath = Config.xcconfig;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -293,8 +291,6 @@
 		};
 		35BB53CB2E45E42E00E20C1D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReferenceAnchor = 35BB53C12E45E42C00E20C1D /* TravelDiary */;
-			baseConfigurationReferenceRelativePath = Config.xcconfig;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -304,7 +300,6 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TravelDiary/Info.plist;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"This app requires your location acess for services\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -335,7 +330,6 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = TravelDiary/Info.plist;
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "\"This app requires your location acess for services\"";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
