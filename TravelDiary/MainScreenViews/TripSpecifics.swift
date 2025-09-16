@@ -6,103 +6,99 @@
 //
 
 import SwiftUI
-import TipKit
 
 struct TripSpecifics: View {
   @State var selectedTrip: TripModel
   @Environment(\.modelContext) var modelContext
-  @State var showingBudgetView = false
   @State private var headerImage: Data? = nil
   @State private var budgetSpentInput = ""
   @State private var saveInfoAlert = false
-
+  @State private var isEditingMode = false
   private var viewModel: TripViewModel {
     TripViewModel(modelContext: modelContext)
   }
 
   var body: some View {
-    ZStack {
+    VStack(spacing: 0) {
       ScrollView {
-        VStack {
-          HeaderPhotoView(selectedImageData: $headerImage)
-            .frame(width: 375, height: 400)
-            .clipShape(RoundedRectangle(cornerRadius: 25))
+        HeaderPhotoView(
+          selectedImageData: $headerImage,
+          isEditing: isEditingMode
+        )
+        .frame(width: 402, height: 211)
+        .clipShape(RoundedRectangle(cornerRadius: 25))
+        .ignoresSafeArea(.container, edges: .top)
+        .padding(.top, -50)
 
+        VStack {
           TripTextSpecifics(
             selectedTrip: $selectedTrip,
             budgetSpentInput: $budgetSpentInput,
-            showBudgetView: $showingBudgetView
+            isEditing: $isEditingMode
           )
-          .padding(12)
+          .padding(8)
           .background(Color(.systemBackground))
         }
       }
-      .blur(radius: showingBudgetView ? 5 : 0)
-
-      if showingBudgetView {
-        FiscalDetails(
-          selectedTrip: selectedTrip,
-          showingBudgetView: $showingBudgetView
-        )
-      }
     }
-
     .onAppear {
       headerImage = selectedTrip.headerImage
     }
-
-    .onSubmit {
-      if !budgetSpentInput.isEmpty {
-        viewModel.debouncingSave(
-          for: .budget,
-          trip: selectedTrip,
-          headerImage: headerImage,
-          budgetSpent: budgetSpentInput
-        )
-      }
-    }
-
-    .onChange(of: headerImage) { _, newValue in
-      let result = viewModel.updateTripDetails(
-        selectedTrip,
-        headerImage: headerImage,
-        notes: selectedTrip.notes,
-        budgetSpent: Double(selectedTrip.budgetSpent)
-      )
-      switch result {
-      case .success:
-        print("Header image saved!")
-      case .failure(let error):
-        print("Error saving image: \(error.localizedDescription)")
-      }
-    }
-
-    .onChange(
-      of: selectedTrip.notes,
-      { _, newValue in
-        viewModel.debouncingSave(
-          for: .notes,
-          trip: selectedTrip,
-          headerImage: headerImage,
-          budgetSpent: budgetSpentInput
-        )
-      }
-    )
     .navigationBarTitleDisplayMode(.inline)
-    .toolbarBackground(.clear, for: .navigationBar)
+    .toolbarBackground(.hidden, for: .navigationBar)
+    .toolbar {
+      ToolbarItemGroup(placement: .topBarTrailing) {
+        if isEditingMode {
+          Button("Save") {
+            saveTripInfo()
+            isEditingMode = false
+            saveInfoAlert = true
 
+          }
+        } else {
+          Button("Edit") {
+            isEditingMode = true
+          }
+        }
+      }
+    }
+
+    .alert("Saved", isPresented: $saveInfoAlert) {
+      //empty for using default OK button
+    } message: {
+      Text("Trip details saved!")
+    }
   }
 
+  private func saveTripInfo() {
+    if let amount = Double(budgetSpentInput) {
+      selectedTrip.budgetSpent += amount
+    }
+    selectedTrip.headerImage = headerImage
+    let result = viewModel.updateTripDetails(
+      selectedTrip,
+      headerImage: headerImage,
+      notes: selectedTrip.notes,
+      budgetSpent: selectedTrip.budgetSpent
+    )
+    switch result {
+    case .success:
+      print("Trip details saved successfully")
+    case .failure(let error):
+      print("Error saving trip details: \(error.localizedDescription)")
+    }
+  }
 }
 
 #Preview {
   TripSpecifics(
-    selectedTrip: TripModel(
-      destination: "Goa",
-      startDate: .now,
-      budgetEstimate: 6789,
-      status: .inProgress,
-      days: 8
-    )
+    selectedTrip:
+      TripModel(
+        destination: DestinationModel(name: "Paris"),
+        startDate: .now,
+        budgetEstimate: 6789,
+        status: .inProgress,
+        days: 8
+      )
   )
 }

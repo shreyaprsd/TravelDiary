@@ -6,47 +6,56 @@
 //
 
 import SwiftUI
-import TipKit
 
 struct TripTextSpecifics: View {
   @Binding var selectedTrip: TripModel
   @Environment(\.modelContext) var modelContext
   @Binding var budgetSpentInput: String
-  @Binding var showBudgetView: Bool
-  private let helperTip = HelperTips()
+  @Binding var isEditing: Bool
   private var viewModel: TripViewModel {
     TripViewModel(modelContext: modelContext)
   }
+
   var body: some View {
-    VStack(spacing: 16) {
-
-      Text("📍\(selectedTrip.destination)")
-        .font(.largeTitle)
-        .fontWeight(.semibold)
-
-      Text("Duration: \(selectedTrip.days) days")
-        .font(.headline)
-        .foregroundStyle(.secondary)
-      Divider()
-
-      VStack(spacing: 8) {
-
-        TextField("Enter expenditure", text: $budgetSpentInput)
-          .textFieldStyle(.roundedBorder)
-          .frame(width: 375)
-          .keyboardType(.decimalPad)
-          .padding()
-
-        Button {
-          showBudgetView = true
-        } label: {
-          Text("View Fiscal Details")
-        }
+    VStack {
+      VStack(alignment: .leading, spacing: 8) {
+        Text("\(selectedTrip.destinationName)")
+          .font(.system(size: 32, weight: .heavy, design: .default))
+        Text("Duration: \(selectedTrip.days) Days")
+          .font(.system(size: 20, weight: .light, design: .default))
+        Spacer()
+        MapDisplayView(destination: selectedTrip.destination)
       }
-      .popoverTip(helperTip)
-      Divider()
 
-      TripSpecificNotes(selectedTrip: $selectedTrip)
+      VStack {
+        FiscalDetails(
+          selectedTrip: selectedTrip,
+          expenseInput: $budgetSpentInput,
+          isEditing: $isEditing
+        )
+        TripSpecificNotes(
+          selectedTrip: $selectedTrip,
+          isEditing: isEditing
+        )
+      }
     }
   }
+}
+
+#Preview {
+  TripTextSpecifics(
+    selectedTrip: .constant(
+      TripModel(
+        destination: DestinationModel(name: "Paris"),
+        startDate: .now,
+        budgetEstimate: 1200,
+        status: .completed,
+        days: 7,
+        notes: "Amazing trip to the City of Light!",
+        budgetSpent: 950
+      )
+    ),
+    budgetSpentInput: .constant("950"),
+    isEditing: .constant(false)
+  )
 }

@@ -5,31 +5,98 @@
 //  Created by Shreya Prasad on 18/08/25.
 //
 
+import Charts
 import SwiftUI
 
 struct FiscalDetails: View {
-    var selectedTrip: TripModel
-    @Binding var showingBudgetView: Bool
-    var body: some View {
-        VStack(spacing: 12) {
-            Text(
-                "Estimated budget: $\(selectedTrip.budgetEstimate.twoDecimalString)"
-            )
-            Text("Budget spent: $\(selectedTrip.budgetSpent.twoDecimalString)")
-            Text("Money left: $\(selectedTrip.moneyleft.twoDecimalString)")
-            Text(
-                "Percentage of money left: \(selectedTrip.percentageOfMoneyLeft.twoDecimalPlacesNoTrailingZeros)%"
-            )
-            Button {
-                showingBudgetView = false
-            } label: {
-                Text("Back")
-            }
-        }
+  var selectedTrip: TripModel
+  @Binding var expenseInput: String
+  @Binding var isEditing: Bool
+  private var budgetChartData: [BudgetChartData] {
+    return [
+      BudgetChartData(
+        category: "Available",
+        amount: selectedTrip.moneyleft,
+        color: Color(.systemGreen)
+      ),
+      BudgetChartData(
+        category: "Used",
+        amount: selectedTrip.budgetSpent,
+        color: Color(.systemYellow)
+      ),
+    ]
+  }
 
-        .padding(40)
-        .background(Color(.systemBackground))
-        .cornerRadius(12)
-        .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
+  var body: some View {
+    VStack(alignment: .leading, spacing: 12) {
+      Text("Expenses")
+        .font(.system(size: 20, weight: .bold, design: .default))
+
+      if isEditing {
+        HStack {
+          Text("Recent expense")
+          TextField("required", text: $expenseInput)
+            .textFieldStyle(.roundedBorder)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+      } else {
+        HStack {
+          Text("Recent expense")
+          Text("₹\(selectedTrip.budgetSpent, specifier: "%.2f")")
+            .foregroundColor(.secondary)
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+      }
+
+      HStack {
+        Rectangle()
+          .fill(Color(.systemGreen))
+          .frame(width: 16, height: 16)
+        Text("Available  ₹\(selectedTrip.moneyleft, specifier: "%.2f")")
+          .font(.system(size: 15, weight: .regular, design: .default))
+          .foregroundColor(.secondary)
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
+
+      HStack {
+        Rectangle()
+          .fill(Color(.systemYellow))
+          .frame(width: 16, height: 16)
+        Text("Used ₹\(selectedTrip.budgetSpent , specifier: "%.2f")")
+          .font(.system(size: 15, weight: .regular, design: .default))
+          .foregroundColor(.secondary)
+      }
+      .frame(maxWidth: .infinity, alignment: .leading)
     }
+    .padding()
+
+    VStack(alignment: .center) {
+      Chart(budgetChartData, id: \.id) { data in
+        SectorMark(angle: .value("Amount", data.amount))
+          .foregroundStyle(data.color)
+      }
+      .frame(width: 198, height: 198)
+      .padding()
+    }
+  }
+}
+
+struct BudgetChartData: Identifiable {
+  var id = UUID()
+  let category: String
+  let amount: Double
+  let color: Color
+}
+
+#Preview {
+  FiscalDetails(
+    selectedTrip: TripModel(
+      startDate: .now,
+      budgetEstimate: 100,
+      status: .completed,
+      days: 34
+    ),
+    expenseInput: .constant("100"),
+    isEditing: .constant(false)
+  )
 }

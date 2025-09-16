@@ -6,47 +6,30 @@
 //
 
 import FirebaseCore
-import SwiftUI
 import SwiftData
-import TipKit
+import SwiftUI
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication
-            .LaunchOptionsKey: Any]? = nil
-    ) -> Bool {
-        FirebaseApp.configure()
-        return true
-    }
+  func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication
+      .LaunchOptionsKey: Any]? = nil
+  ) -> Bool {
+    FirebaseApp.configure()
+    return true
+  }
 }
 
 @main
 struct TravelDiaryApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @StateObject var viewModel: AuthViewModel = .init()
-    var body: some Scene {
-        WindowGroup {
-            ContentView(viewModel: viewModel)
-                .modelContainer(for: [TripModel.self, UserProfile.self])
-         
-        }
+  @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+  @StateObject var viewModel: AuthViewModel = .init()
+  var body: some Scene {
+    WindowGroup {
+      ContentView(viewModel: viewModel)
+        .modelContainer(for: [
+          TripModel.self, UserProfile.self, DestinationModel.self,
+        ])
     }
-    init() {
-            do{
-                try Tips.resetDatastore()
-                try Tips.configure([
-                    .displayFrequency(.immediate),
-                    .datastoreLocation(.applicationDefault)
-                ])
-                
-            }
-            catch{
-                print("Error initialising tip kit \(error.localizedDescription)")
-                    
-                }
-            
-        }
-    
-   
+  }
 }

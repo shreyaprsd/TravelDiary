@@ -12,27 +12,25 @@ import SwiftUI
 
 @Observable
 class HeaderPhotoViewModel {
-    var selectedPhotos: [PhotosPickerItem] = []
-    var images = [UIImage]()
+  var selectedPhotos: [PhotosPickerItem] = []
+  var images = [UIImage]()
 
-    @MainActor
-    func convertDataToImage() async {
-        images.removeAll()
-
-        guard !selectedPhotos.isEmpty else { return }
-
-        for eachItem in selectedPhotos {
-            do {
-                if let imageData = try await eachItem.loadTransferable(
-                    type: Data.self
-                ) {
-                    if let image = UIImage(data: imageData) {
-                        images.append(image)
-                    }
-                }
-            } catch {
-                print("Error loading image: \(error)")
-            }
+  @MainActor
+  func convertDataToImage() async {
+    images.removeAll()
+    guard !selectedPhotos.isEmpty else { return }
+    for eachItem in selectedPhotos {
+      do {
+        if let imageData = try await eachItem.loadTransferable(
+          type: Data.self)
+        {
+          if let image = UIImage(data: imageData) {
+            images.append(image)
+          }
         }
+      } catch {
+        print("Error loading image: \(error)")
+      }
     }
+  }
 }

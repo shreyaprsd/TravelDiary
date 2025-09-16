@@ -10,39 +10,37 @@ import SwiftData
 
 @Observable
 class TripViewModel {
-  private var budgetSaveTask: Task<Void, Never>?
-  private var notesSaveTask: Task<Void, Never>?
   var modelContext: ModelContext
   init(modelContext: ModelContext) {
     self.modelContext = modelContext
   }
 
   func addTrip(
-    destination: String,
+    destination: DestinationModel,
     startDate: Date,
     budgetEstimate: Double,
     days: Int,
     status: TripStatus
   ) -> Result<TripModel, TripDataError> {
-    guard !destination.isEmpty else {
+    guard !destination.name.isEmpty else {
       return .failure(.invalidDestination)
     }
 
     guard budgetEstimate >= 0 else {
       return .failure(.invalidBudget)
     }
-
+    modelContext.insert(destination)
     let newTrip = TripModel(
       destination: destination,
+      destinationName: destination.name,
       startDate: startDate,
       budgetEstimate: budgetEstimate,
       status: status,
       days: days,
     )
 
-    print("Attempting to save trip: \(newTrip.destination)")
+    print("Attempting to save trip: \(destination.name)")
     modelContext.insert(newTrip)
-
     do {
       try modelContext.save()
       print("Trip saved successfully!")
@@ -59,15 +57,14 @@ class TripViewModel {
     notes: String,
     budgetSpent: Double
   ) -> Result<TripModel, TripDataError> {
-
     if let headerImage = headerImage {
       trip.headerImage = headerImage
     }
     trip.notes = notes
     trip.budgetSpent = budgetSpent
-
-    print("Attempting to update trip details for: \(trip.destination)")
-
+    print(
+      "Attempting to update trip details for: \( String(describing: trip.destination?.name))"
+    )
     do {
       try modelContext.save()
       print("Trip details updated successfully!")
@@ -78,55 +75,6 @@ class TripViewModel {
     }
   }
 
-  func debouncingSave(
-    for inputType: InputType,
-    trip: TripModel,
-    headerImage: Data?,
-    budgetSpent: String,
-  ) {
-
-    switch inputType {
-    case .budget:
-      budgetSaveTask?.cancel()
-
-      budgetSaveTask = Task {
-        try? await Task.sleep(for: .seconds(3))
-        if !Task.isCancelled {
-          await MainActor.run {
-            if let amount = Double(budgetSpent) {
-              trip.budgetSpent += amount
-            }
-            _ = self.updateTripDetails(
-              trip,
-              headerImage: headerImage,
-              notes: trip.notes,
-              budgetSpent: trip.budgetSpent
-            )
-          }
-        }
-      }
-    case .notes:
-      notesSaveTask?.cancel()
-      notesSaveTask = Task {
-        try? await Task.sleep(for: .seconds(3))
-        if !Task.isCancelled {
-          await MainActor.run {
-
-            _ = self.updateTripDetails(
-              trip,
-              headerImage: headerImage,
-              notes: trip.notes,
-              budgetSpent: trip.budgetSpent
-            )
-          }
-        }
-      }
-    }
-  }
-  enum InputType {
-    case budget
-    case notes
-  }
   func deleteTrips(from trips: [TripModel], at offsets: IndexSet) -> Result<
     Void, TripDataError
   > {
