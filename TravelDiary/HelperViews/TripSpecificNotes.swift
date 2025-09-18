@@ -15,30 +15,37 @@ struct TripSpecificNotes: View {
     VStack(alignment: .leading) {
       VStack(spacing: 4) {
         Text("Notes")
-          .font(.system(size: 20, weight: .bold, design: .default))
+          .font(.custom("SF-Pro", size: 20))
+          .fontWeight(.bold)
+          .fontDesign(.default)
+          .padding(.leading, 16)
+          .padding(.bottom, 20)
       }
-      ZStack {
+      VStack(alignment: .leading) {
         if isEditing {
           TextEditor(text: $selectedTrip.notes)
-            .padding()
-          if selectedTrip.notes.isEmpty {
-            Text(
-              "Write whatever is in your mind about this trip..."
-            )
-            .foregroundColor(.secondary)
-          }
+            .font(.custom("SF-Pro", size: 17))
+            .fontWeight(.regular)
+            .fontDesign(.default)
+            .lineSpacing(6)
+            .foregroundColor(Color(hex: "#393838"))
+
         } else {
           Text(selectedTrip.notes)
-            .foregroundColor(.secondary)
+            .font(.custom("SF-Pro", size: 17))
+            .fontWeight(.regular)
+            .fontDesign(.default)
+            .lineSpacing(6)
+            .foregroundStyle(Color(hex: "4C4C4C"))
         }
       }
       .frame(width: 354, height: 121)
-      .background(Color(.systemBackground))
       .cornerRadius(1)
       .shadow(color: Color.black.opacity(0.1), radius: 2, x: 0, y: 2)
       .padding(.top, 11)
       .padding(.bottom, 11)
-      .padding(.trailing, 16)
+      .padding(.leading, 16)
+      .padding(.trailing, 15)
     }
   }
 }

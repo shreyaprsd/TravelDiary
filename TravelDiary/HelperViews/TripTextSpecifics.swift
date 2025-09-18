@@ -18,13 +18,27 @@ struct TripTextSpecifics: View {
 
   var body: some View {
     VStack {
-      VStack(alignment: .leading, spacing: 8) {
+      VStack(alignment: .leading) {
         Text("\(selectedTrip.destinationName)")
-          .font(.system(size: 32, weight: .heavy, design: .default))
+          .font(.custom("SF-Pro", size: 32))
+          .fontWeight(.heavy)
+          .fontDesign(.default)
+          .padding(.top, 24)
+          .padding(.leading, 16)
+          .padding(.bottom, 6)
+
         Text("Duration: \(selectedTrip.days) Days")
-          .font(.system(size: 20, weight: .light, design: .default))
-        Spacer()
+          .font(.custom("SF-Pro", size: 20))
+          .fontWeight(.regular)
+          .fontDesign(.default)
+          .foregroundStyle(Color(hex: "#393838"))
+          .padding(.leading, 16)
+
         MapDisplayView(destination: selectedTrip.destination)
+          .padding(.top, 18)
+          .padding(.leading, 16)
+          .padding(.trailing, 15)
+
       }
 
       VStack {
@@ -39,6 +53,7 @@ struct TripTextSpecifics: View {
         )
       }
     }
+    .clipShape(RoundedRectangle(cornerRadius: 24))
   }
 }
 

@@ -110,7 +110,7 @@ struct FormMapView: View {
           }
         }
       }
-      .frame(width: 275, height: 300)
+      .frame(width: 275, height: 295)
       .clipShape(RoundedRectangle(cornerRadius: 25))
       .padding()
       .onTapGesture {

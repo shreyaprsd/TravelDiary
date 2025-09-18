@@ -20,12 +20,12 @@ struct HeaderPhotoView: View {
           maxSelectionCount: 1,
           matching: .images
         ) {
-          RoundedRectangle(cornerRadius: 25)
-            .fill(Color.gray.opacity(0.1))
-            .frame(width: 402, height: 311)
+          RoundedRectangle(cornerRadius: 24)
+            .fill(Color(hex: "D9D9D9"))
+            .frame(width: 402, height: 211)
             .overlay(
               Text("Select a header photo")
-                .font(.headline)
+                .font(.subheadline)
             )
         }
       } else {
@@ -33,9 +33,10 @@ struct HeaderPhotoView: View {
           if let image = headerPhotoViewModel.images.first {
             Image(uiImage: image)
               .resizable()
-              .frame(width: 402, height: 211)
-              .clipShape(RoundedRectangle(cornerRadius: 25))
-              .blur(radius: isEditing ? 5 : 0)
+              .aspectRatio(contentMode: .fill)
+              .frame(width: 402, height: 311)
+              .clipShape(RoundedRectangle(cornerRadius: 24))
+              .blur(radius: isEditing ? 10 : 0)
               .onAppear {
                 selectedImageData = image.jpegData(
                   compressionQuality: 0.8
@@ -51,15 +52,18 @@ struct HeaderPhotoView: View {
             ) {
               HStack {
                 Image(systemName: "photo.badge.plus")
-                  .font(.system(size: 20))
+                  .font(.system(size: 15))
                 Text("Update Image")
-                  .font(.headline)
+                  .font(.custom("SF-Pro", size: 15))
+                  .lineSpacing(20)
               }
-              .padding(.horizontal, 12)
-              .padding(.vertical, 8)
+              .padding(.top, 7)
+              .padding(.bottom, 7)
+              .padding(.leading, 14)
+              .padding(.trailing, 14)
               .foregroundStyle(Color.white)
               .background(Color.blue)
-              .clipShape(RoundedRectangle(cornerRadius: 16))
+              .clipShape(RoundedRectangle(cornerRadius: 40))
             }
           }
         }
@@ -74,7 +78,7 @@ struct HeaderPhotoView: View {
       }
     }
 
-    .task(id: selectedImageData) {
+    .onChange(of: selectedImageData) {
       if let existingImageData = selectedImageData,
         let existingImage = UIImage(data: existingImageData)
       {

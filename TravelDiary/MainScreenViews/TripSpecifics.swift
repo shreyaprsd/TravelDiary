@@ -26,7 +26,7 @@ struct TripSpecifics: View {
           isEditing: isEditingMode
         )
         .frame(width: 402, height: 211)
-        .clipShape(RoundedRectangle(cornerRadius: 25))
+        .clipShape(RoundedRectangle(cornerRadius: 24))
         .ignoresSafeArea(.container, edges: .top)
         .padding(.top, -50)
 
@@ -37,7 +37,6 @@ struct TripSpecifics: View {
             isEditing: $isEditingMode
           )
           .padding(8)
-          .background(Color(.systemBackground))
         }
       }
     }
