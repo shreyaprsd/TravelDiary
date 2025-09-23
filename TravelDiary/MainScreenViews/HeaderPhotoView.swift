@@ -20,13 +20,19 @@ struct HeaderPhotoView: View {
           maxSelectionCount: 1,
           matching: .images
         ) {
-          RoundedRectangle(cornerRadius: 24)
-            .fill(Color(hex: "D9D9D9"))
-            .frame(width: 402, height: 211)
-            .overlay(
-              Text("Select a header photo")
-                .font(.subheadline)
+          UnevenRoundedRectangle(
+            cornerRadii: .init(
+              topLeading: 0,
+              bottomLeading: 12,
+              bottomTrailing: 12,
+              topTrailing: 0
             )
+          )
+          .fill(Color(hex: "D9D9D9"))
+          .overlay(
+            Text("Select a header photo")
+              .font(.subheadline)
+          )
         }
       } else {
         ZStack(alignment: .center) {
@@ -34,8 +40,15 @@ struct HeaderPhotoView: View {
             Image(uiImage: image)
               .resizable()
               .aspectRatio(contentMode: .fill)
-              .frame(width: 402, height: 311)
-              .clipShape(RoundedRectangle(cornerRadius: 24))
+              .clipShape(
+                UnevenRoundedRectangle(
+                  cornerRadii: .init(
+                    topLeading: 0,
+                    bottomLeading: 12,
+                    bottomTrailing: 12,
+                    topTrailing: 0
+                  ))
+              )
               .blur(radius: isEditing ? 10 : 0)
               .onAppear {
                 selectedImageData = image.jpegData(
@@ -54,7 +67,8 @@ struct HeaderPhotoView: View {
                 Image(systemName: "photo.badge.plus")
                   .font(.system(size: 15))
                 Text("Update Image")
-                  .font(.custom("SF-Pro", size: 15))
+                  .font(.subheadline)
+                  .fontWeight(.regular)
                   .lineSpacing(20)
               }
               .padding(.top, 7)
@@ -67,6 +81,7 @@ struct HeaderPhotoView: View {
             }
           }
         }
+
       }
     }
     .onChange(of: headerPhotoViewModel.selectedPhotos) { _, _ in

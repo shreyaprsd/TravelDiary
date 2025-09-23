@@ -36,7 +36,7 @@ class TripViewModel {
       startDate: startDate,
       budgetEstimate: budgetEstimate,
       status: status,
-      days: days,
+      days: days
     )
 
     print("Attempting to save trip: \(destination.name)")

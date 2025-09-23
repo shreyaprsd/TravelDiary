@@ -24,7 +24,7 @@ struct AddTripView: View {
     NavigationView {
       Form {
         Section(header: Text("Trip Location")) {
-          FormMapView(selectedDestination: $destination, )
+          FormMapView(selectedDestination: $destination)
         }
         Section(header: Text("Trip Details")) {
           if let destination = destination {

@@ -64,7 +64,7 @@ struct MapDisplayView: View {
   }
 
   var body: some View {
-    Map(position: $position) {
+    Map(position: $position, interactionModes: []) {
       ForEach(destinations, id: \.name) { destination in
         if let coordinates = destination.coordinates {
           Marker(destination.name, coordinate: coordinates)

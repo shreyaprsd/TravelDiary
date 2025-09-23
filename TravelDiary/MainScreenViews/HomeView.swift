@@ -12,6 +12,8 @@ struct HomeView: View {
   @Query var trips: [TripModel]
   @Environment(\.modelContext) var modelContext
   @State private var showingAddTrip = false
+  @State private var showingTripDetails = false
+  @State private var selectedTrip: TripModel?
   private var viewModel: TripViewModel {
     TripViewModel(modelContext: modelContext)
   }
@@ -34,12 +36,13 @@ struct HomeView: View {
       } else {
         List {
           ForEach(trips, id: \.id) { trip in
-            NavigationLink(
-              destination: TripSpecifics(selectedTrip: trip)
-            ) {
+            Button(action: {
+              selectedTrip = trip
+            }) {
               TripRowView(trip: trip)
             }
           }
+
           .onDelete { offsets in
             let _ = viewModel.deleteTrips(from: trips, at: offsets)
           }
@@ -47,6 +50,11 @@ struct HomeView: View {
       }
     }
     .navigationTitle("Trips 🧳")
+    .sheet(item: $selectedTrip) { trip in
+      NavigationView {
+        TripSpecifics(selectedTrip: trip)
+      }
+    }
     .toolbar {
       ToolbarItem(placement: .navigationBarTrailing) {
         Button {

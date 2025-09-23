@@ -10,6 +10,7 @@ import SwiftUI
 struct TripSpecifics: View {
   @State var selectedTrip: TripModel
   @Environment(\.modelContext) var modelContext
+  @Environment(\.dismiss) private var dismiss
   @State private var headerImage: Data? = nil
   @State private var budgetSpentInput = ""
   @State private var saveInfoAlert = false
@@ -19,16 +20,23 @@ struct TripSpecifics: View {
   }
 
   var body: some View {
-    VStack(spacing: 0) {
+    VStack {
       ScrollView {
         HeaderPhotoView(
           selectedImageData: $headerImage,
           isEditing: isEditingMode
         )
-        .frame(width: 402, height: 211)
-        .clipShape(RoundedRectangle(cornerRadius: 24))
-        .ignoresSafeArea(.container, edges: .top)
-        .padding(.top, -50)
+        .frame(width: 402, height: 221)
+        .clipShape(
+          UnevenRoundedRectangle(
+            cornerRadii: .init(
+              topLeading: 0,
+              bottomLeading: 12,
+              bottomTrailing: 12,
+              topTrailing: 0
+            ))
+        )
+        .padding(.top, -56)
 
         VStack {
           TripTextSpecifics(
@@ -36,7 +44,6 @@ struct TripSpecifics: View {
             budgetSpentInput: $budgetSpentInput,
             isEditing: $isEditingMode
           )
-          .padding(8)
         }
       }
     }
@@ -46,18 +53,30 @@ struct TripSpecifics: View {
     .navigationBarTitleDisplayMode(.inline)
     .toolbarBackground(.hidden, for: .navigationBar)
     .toolbar {
+      ToolbarItemGroup(placement: .topBarLeading) {
+        Button(action: {
+          dismiss()
+        }) {
+          HStack {
+            Image(systemName: "chevron.backward")
+            Text("Trips")
+          }
+        }
+      }
+
       ToolbarItemGroup(placement: .topBarTrailing) {
         if isEditingMode {
           Button("Save") {
             saveTripInfo()
             isEditingMode = false
             saveInfoAlert = true
-
           }
+          .fontWeight(.semibold)
         } else {
           Button("Edit") {
             isEditingMode = true
           }
+          .fontWeight(.semibold)
         }
       }
     }

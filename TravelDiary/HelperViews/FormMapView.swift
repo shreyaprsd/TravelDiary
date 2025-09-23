@@ -102,7 +102,7 @@ struct FormMapView: View {
         }
       }.padding()
 
-      Map(position: $position) {
+      Map(position: $position, interactionModes: []) {
         ForEach(annotations, id: \.name) { annotation in
           if let coordinates = annotation.coordinates {
             Marker(annotation.name, coordinate: coordinates)

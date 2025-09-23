@@ -20,17 +20,17 @@ struct TripTextSpecifics: View {
     VStack {
       VStack(alignment: .leading) {
         Text("\(selectedTrip.destinationName)")
-          .font(.custom("SF-Pro", size: 32))
+          .font(.largeTitle)
           .fontWeight(.heavy)
-          .fontDesign(.default)
+          .fontWidth(.expanded)
           .padding(.top, 24)
           .padding(.leading, 16)
-          .padding(.bottom, 6)
+          .padding(.bottom, 2)
 
         Text("Duration: \(selectedTrip.days) Days")
-          .font(.custom("SF-Pro", size: 20))
+          .font(.title3)
           .fontWeight(.regular)
-          .fontDesign(.default)
+          .lineSpacing(25)
           .foregroundStyle(Color(hex: "#393838"))
           .padding(.leading, 16)
 
@@ -53,7 +53,6 @@ struct TripTextSpecifics: View {
         )
       }
     }
-    .clipShape(RoundedRectangle(cornerRadius: 24))
   }
 }
 

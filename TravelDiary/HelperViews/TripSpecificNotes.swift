@@ -15,28 +15,27 @@ struct TripSpecificNotes: View {
     VStack(alignment: .leading) {
       VStack(spacing: 4) {
         Text("Notes")
-          .font(.custom("SF-Pro", size: 20))
+          .font(.system(size: 20))
           .fontWeight(.bold)
-          .fontDesign(.default)
           .padding(.leading, 16)
           .padding(.bottom, 20)
       }
-      VStack(alignment: .leading) {
+      VStack {
         if isEditing {
           TextEditor(text: $selectedTrip.notes)
-            .font(.custom("SF-Pro", size: 17))
+            .font(.body)
             .fontWeight(.regular)
-            .fontDesign(.default)
             .lineSpacing(6)
             .foregroundColor(Color(hex: "#393838"))
 
         } else {
-          Text(selectedTrip.notes)
-            .font(.custom("SF-Pro", size: 17))
-            .fontWeight(.regular)
-            .fontDesign(.default)
-            .lineSpacing(6)
-            .foregroundStyle(Color(hex: "4C4C4C"))
+          ScrollView {
+            Text(selectedTrip.notes)
+              .font(.body)
+              .fontWeight(.regular)
+              .lineSpacing(6)
+              .foregroundStyle(Color(hex: "4C4C4C"))
+          }
         }
       }
       .frame(width: 354, height: 121)

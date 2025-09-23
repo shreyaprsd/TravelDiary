@@ -34,7 +34,7 @@ struct TripRowView: View {
 #Preview {
   TripRowView(
     trip: TripModel(
-      destination: DestinationModel(name: "London", ),
+      destination: DestinationModel(name: "London"),
       startDate: .now,
       budgetEstimate: 7890,
       status: .planned,
