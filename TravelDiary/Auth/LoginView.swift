@@ -9,39 +9,45 @@ import GoogleSignIn
 import SwiftUI
 
 struct LoginView: View {
-    @StateObject var viewModel: AuthViewModel
-    @Environment(\.dismiss) var dismiss
-    
-    private func signInWithGoogle() {
-        Task {
-            if await viewModel.signInWithGoogle() == true {
-                dismiss()
-            }
-        }
+  @StateObject var viewModel: AuthViewModel
+  @Environment(\.dismiss) var dismiss
+
+  private func signInWithGoogle() {
+    Task {
+      if await viewModel.signInWithGoogle() == true {
+        dismiss()
+      }
     }
-    
-    var body: some View {
-        VStack(spacing: 20) {
-            Text("Login Page")
-                .font(.largeTitle)
-                .fontWeight(.bold)
-                .padding(.bottom, 30)
-            Spacer()
-            Button(action: signInWithGoogle) {
-                Text("Sign in with Google")
-                    .frame(maxWidth: 280)
-                    .padding(.vertical, 8)
-            }
-            .buttonStyle(.bordered)
-            .background(alignment: .leading) {
-                Image("Google")
-                    .frame(width: 30, alignment: .center)
-            }
-            Spacer()
+  }
+
+  var body: some View {
+    VStack {
+
+      Text("Login Page")
+        .font(.largeTitle)
+        .fontWeight(.semibold)
+        .padding(.top, 10)
+
+      Spacer()
+
+      VStack(alignment: .center) {
+        Button(action: signInWithGoogle) {
+          HStack(spacing: 12) {
+            Image("Google")
+              .frame(width: 25, height: 25)
+            Text("Sign in with Google")
+              .font(.body)
+              .fontWeight(.medium)
+          }
+          .frame(width: 225, height: 50)
         }
+        .buttonStyle(.bordered)
+      }
+      Spacer()
     }
+  }
 }
 
 #Preview {
-    LoginView(viewModel: AuthViewModel())
+  LoginView(viewModel: AuthViewModel())
 }
