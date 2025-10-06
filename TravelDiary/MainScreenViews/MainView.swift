@@ -37,6 +37,14 @@ struct MainView: View {
         Label("Invite", systemImage: "square.and.arrow.up")
       }
       .tag(2)
+
+      NavigationStack {
+        ConversionCalculatorView()
+          .navigationTitle("Currency Converter")
+      }
+      .tabItem {
+        Label("Currency", systemImage: "dollarsign.circle")
+      }
     }
   }
 }
