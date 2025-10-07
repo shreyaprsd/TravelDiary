@@ -30,21 +30,13 @@ struct MainView: View {
       .tag(1)
 
       NavigationStack {
-        InviteView()
-          .navigationTitle("Invite Friends")
-      }
-      .tabItem {
-        Label("Invite", systemImage: "square.and.arrow.up")
-      }
-      .tag(2)
-
-      NavigationStack {
         ConversionCalculatorView()
           .navigationTitle("Currency Converter")
       }
       .tabItem {
         Label("Currency", systemImage: "dollarsign.circle")
       }
+      .tag(2)
     }
   }
 }
