@@ -5,6 +5,7 @@
 //  Created by Shreya Prasad on 15/08/25.
 //
 
+import FirebaseAuth
 import PhotosUI
 import SwiftData
 import SwiftUI
@@ -65,7 +66,9 @@ struct ProfileImageView: View {
           showingImagePicker = true
         }
         Button("Remove") {
-          removeProfileImage()
+          Task {
+            await removeProfileImage()
+          }
         }
       }
     )
@@ -97,12 +100,17 @@ struct ProfileImageView: View {
   }
 
   private func saveProfileImageAutomatically(image: UIImage) async {
+
     guard let imageData = image.jpegData(compressionQuality: 0.8) else {
       print("Could not convert image to data")
       return
     }
+    guard let userId = Auth.auth().currentUser?.uid else {
+      return
+    }
 
     do {
+      // 1. saving to SwiftData
       if let existingProfile = currentProfile {
         existingProfile.updateProfileImage(with: imageData)
       } else {
@@ -111,10 +119,17 @@ struct ProfileImageView: View {
       }
 
       try modelContext.save()
-      print("Image automatically saved!")
+      print("Image saved to SwiftData")
+
+      //2. saving in the firestore storage
+      _ = await UserManager.shared.saveProfileImage(
+        userId: userId, imageData: imageData
+      )
 
     } catch {
-      print("Failed to auto-save image: \(error)")
+      print(
+        "Failed to save image: \(error) to swiftData and online storage"
+      )
     }
   }
 
@@ -129,13 +144,21 @@ struct ProfileImageView: View {
     selectedImage = UIImage(data: imageData)
   }
 
-  private func removeProfileImage() {
+  private func removeProfileImage() async {
     do {
+      //1. remove image from the SwiftData
       if let existingProfile = currentProfile {
         existingProfile.updateProfileImage(with: nil)
         try modelContext.save()
         selectedImage = nil
         print("Image removed successfully!")
+
+        //2. remove image from the firestore storage and database
+        guard let userId = Auth.auth().currentUser?.uid else {
+          print("No authenticated user found")
+          return
+        }
+        _ = await UserManager.shared.deleteProfileImage(userId: userId)
       }
     } catch {
       print("Failed to remove image: \(error)")
