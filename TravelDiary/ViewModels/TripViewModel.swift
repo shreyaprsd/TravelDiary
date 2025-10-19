@@ -10,7 +10,8 @@ import SwiftData
 
 @Observable
 class TripViewModel {
-  var modelContext: ModelContext
+  private var modelContext: ModelContext
+  private var tripRepository = TripRepository()
   init(modelContext: ModelContext) {
     self.modelContext = modelContext
   }
@@ -44,6 +45,11 @@ class TripViewModel {
     do {
       try modelContext.save()
       print("Trip saved successfully!")
+      Task {
+        do {
+          try await tripRepository.saveTripToFirestore(trip: newTrip)
+        }
+      }
       return .success(newTrip)
     } catch {
       print("Error saving trip: \(error)")
@@ -68,6 +74,12 @@ class TripViewModel {
     do {
       try modelContext.save()
       print("Trip details updated successfully!")
+      Task {
+        do {
+          try await tripRepository.updateTripDetails(
+            trip, headerImageData: headerImage)
+        }
+      }
       return .success(trip)
     } catch {
       print("Error updating trip: \(error)")
@@ -86,6 +98,11 @@ class TripViewModel {
     do {
       try modelContext.save()
       print("Trips deleted successfully!")
+      Task {
+        do {
+          try await tripRepository.deletetripDetails(for: trips)
+        }
+      }
       return .success(())
     } catch {
       print("Error deleting trips: \(error)")

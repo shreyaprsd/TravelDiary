@@ -40,4 +40,25 @@ class StorageManager {
     _ = try await storageRef.delete()
     print("Successfully deleted from storage")
   }
+
+  func uploadTripHeaderImage(imageData: Data, tripId: String) async throws
+    -> String
+  {
+    let storageRef = storage.reference()
+    let imageRef = storageRef.child("headerImages/\(tripId).jpg")
+
+    let metadata = StorageMetadata()
+    metadata.contentType = "image/jpeg"
+
+    _ = try await imageRef.putDataAsync(imageData, metadata: metadata)
+
+    let downloadURL = try await imageRef.downloadURL()
+    return downloadURL.absoluteString
+  }
+
+  func deleteTripHeaderImage(tripId: String) async throws {
+    let storageRef = storage.reference()
+    let imageRef = storageRef.child("headerImages/\(tripId).jpg")
+    try await imageRef.delete()
+  }
 }
