@@ -16,7 +16,9 @@ struct TripSpecifics: View {
   @State private var saveInfoAlert = false
   @State private var isEditingMode = false
   private var viewModel: TripViewModel {
-    TripViewModel(modelContext: modelContext)
+    TripViewModel(
+      modelContext: modelContext,
+      repository: TripRepository(modelContext: modelContext))
   }
 
   var body: some View {
@@ -93,18 +95,12 @@ struct TripSpecifics: View {
       selectedTrip.budgetSpent += amount
     }
     selectedTrip.headerImage = headerImage
-    let result = viewModel.updateTripDetails(
+    viewModel.updateTripDetailsToDB(
       selectedTrip,
       headerImage: headerImage,
       notes: selectedTrip.notes,
       budgetSpent: selectedTrip.budgetSpent
     )
-    switch result {
-    case .success:
-      print("Trip details saved successfully")
-    case .failure(let error):
-      print("Error saving trip details: \(error.localizedDescription)")
-    }
   }
 }
 

@@ -15,7 +15,9 @@ struct HomeView: View {
   @State private var showingTripDetails = false
   @State private var selectedTrip: TripModel?
   private var viewModel: TripViewModel {
-    TripViewModel(modelContext: modelContext)
+    TripViewModel(
+      modelContext: modelContext,
+      repository: TripRepository(modelContext: modelContext))
   }
 
   var body: some View {
@@ -44,7 +46,8 @@ struct HomeView: View {
           }
 
           .onDelete { offsets in
-            let _ = viewModel.deleteTrips(from: trips, at: offsets)
+            let _ = viewModel.deleteTripsInDB(
+              from: trips, at: offsets)
           }
         }
       }

@@ -13,7 +13,9 @@ struct TripTextSpecifics: View {
   @Binding var budgetSpentInput: String
   @Binding var isEditing: Bool
   private var viewModel: TripViewModel {
-    TripViewModel(modelContext: modelContext)
+    TripViewModel(
+      modelContext: modelContext,
+      repository: TripRepository(modelContext: modelContext))
   }
 
   var body: some View {

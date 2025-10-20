@@ -21,7 +21,9 @@ struct FormMapView: View {
   @Binding var selectedDestination: DestinationModel?
   @State private var hasSearched = false
   private var ViewModel: TripViewModel {
-    TripViewModel(modelContext: modelContext)
+    TripViewModel(
+      modelContext: modelContext,
+      repository: TripRepository(modelContext: modelContext))
   }
   @State private var position: MapCameraPosition
   init(selectedDestination: Binding<DestinationModel?>) {
