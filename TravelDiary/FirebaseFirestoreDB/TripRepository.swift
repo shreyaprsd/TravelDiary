@@ -147,21 +147,31 @@ class TripRepository {
     }
   }
 
+  func downloadImage(from urlString: String) async throws -> Data {
+    guard let url = URL(string: urlString) else {
+      throw URLError(.badURL)
+    }
+    let (data, _) = try await URLSession.shared.data(from: url)
+    return data
+  }
+
   func fetchDataFromFireStore() async throws {
     guard let userId = Auth.auth().currentUser?.uid else {
-      fatalError("User not signed in")
+      print("User not signed in")
+      return
     }
 
     let snapshot = try await db.collection("users")
       .document(userId)
-      .collection("trips").getDocuments()
+      .collection("trips")
+      .getDocuments()
 
     await MainActor.run {
       do {
         let descriptor = FetchDescriptor<TripModel>()
         let existingTrips = try modelContext.fetch(descriptor)
         let existingIDs = Set(existingTrips.map { $0.id })
-        try snapshot.documents.forEach { document in
+        try snapshot.documents.reversed().forEach { document in
           let firestoreData = try document.data(as: TripRemote.self)
           let tripData = firestoreData.toModel()
 
@@ -170,6 +180,20 @@ class TripRepository {
             print(
               "Adding new trip to the local db \(tripData.destinationName)"
             )
+            if let headerImageURL = firestoreData.headerImageURL,
+              !headerImageURL.isEmpty
+            {
+              Task {
+                do {
+                  let imageData = try await downloadImage(
+                    from: headerImageURL)
+                  tripData.headerImage = imageData
+                  print(
+                    "Image downloaded from the firestore db"
+                  )
+                }
+              }
+            }
           } else {
             print(
               "Trip already exists locally: \(tripData.destinationName)"

@@ -5,6 +5,7 @@
 //  Created by Shreya Prasad on 17/08/25.
 //
 
+import FirebaseAuth
 import SwiftUI
 
 struct TripSpecifics: View {
@@ -15,11 +16,7 @@ struct TripSpecifics: View {
   @State private var budgetSpentInput = ""
   @State private var saveInfoAlert = false
   @State private var isEditingMode = false
-  private var viewModel: TripViewModel {
-    TripViewModel(
-      modelContext: modelContext,
-      repository: TripRepository(modelContext: modelContext))
-  }
+  @State private var viewModel: TripViewModel?
 
   var body: some View {
     VStack {
@@ -49,6 +46,21 @@ struct TripSpecifics: View {
         }
       }
     }
+    .onAppear {
+      if viewModel == nil {
+        viewModel = TripViewModel(
+          modelContext: modelContext,
+          repository: TripRepository(modelContext: modelContext))
+      }
+    }
+
+    .onChange(of: Auth.auth().currentUser?.uid) { _, _ in
+      viewModel = nil
+      viewModel = TripViewModel(
+        modelContext: modelContext,
+        repository: TripRepository(modelContext: modelContext))
+    }
+
     .onAppear {
       headerImage = selectedTrip.headerImage
     }
@@ -95,12 +107,14 @@ struct TripSpecifics: View {
       selectedTrip.budgetSpent += amount
     }
     selectedTrip.headerImage = headerImage
-    viewModel.updateTripDetailsToDB(
-      selectedTrip,
-      headerImage: headerImage,
-      notes: selectedTrip.notes,
-      budgetSpent: selectedTrip.budgetSpent
-    )
+    if let viewModel = viewModel {
+      viewModel.updateTripDetailsToDB(
+        selectedTrip,
+        headerImage: headerImage,
+        notes: selectedTrip.notes,
+        budgetSpent: selectedTrip.budgetSpent
+      )
+    }
   }
 }
 

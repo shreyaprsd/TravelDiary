@@ -18,12 +18,15 @@ class UserManager {
   func createUserDocument(for user: User) async {
     let userRef = db.collection("users").document(user.uid)
     do {
-      try await userRef.setData(
-        [
-          "id": user.uid,
-          "displayName": user.displayName ?? "",
-        ], merge: true)
-      print("User document created \(user.uid)")
+      let document = try await userRef.getDocument()
+      if !document.exists {
+        try await userRef.setData(
+          [
+            "id": user.uid,
+            "displayName": user.displayName ?? "",
+          ], merge: true)
+        print("User document created \(user.uid)")
+      }
     } catch {
       print(error.localizedDescription)
     }
@@ -55,6 +58,35 @@ class UserManager {
     }
   }
 
+  func fetchProfileImageData(userId: String) async -> Data? {
+    do {
+      let imageRef = db.collection("users")
+        .document(userId)
+        .collection("profile")
+        .document("profileImage")
+
+      let document = try await imageRef.getDocument()
+
+      if let imageURLString = document.data()?["image_url"] as? String {
+        print("Found the image in firebase db \(imageURLString)")
+
+        guard let url = URL(string: imageURLString) else {
+          print("Invalid url")
+          return nil
+        }
+        let (data, _) = try await URLSession.shared.data(from: url)
+        print("Successful download of the image")
+        return data
+      } else {
+        print("No image Url found in firebase db")
+        return nil
+      }
+    } catch {
+      print("Error fetching profile image: \(error.localizedDescription)")
+      return nil
+    }
+  }
+
   func deleteProfileImage(userId: String) async {
     do {
 
@@ -63,14 +95,11 @@ class UserManager {
         .collection("profile")
         .document("profileImage")
 
-      print("Fetching document at path: \(profileRef.path)")
-
+      print("Fetching image document at path: \(profileRef.path)")
       let document = try await profileRef.getDocument()
 
       if let imageURL = document.data()?["image_url"] as? String {
-
         print("Found image URL: \(imageURL)")
-
         try await StorageManager.shared.deleteImage(imageURL: imageURL)
         print("Image deleted from storage")
       } else {
@@ -80,9 +109,7 @@ class UserManager {
       try await profileRef.delete()
       print("image document deleted from database")
     } catch {
-
       print("Error in deleteProfileImage: \(error.localizedDescription)")
-
     }
   }
 }

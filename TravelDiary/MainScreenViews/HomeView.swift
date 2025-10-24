@@ -5,6 +5,7 @@
 //  Created by Shreya Prasad on 09/08/25.
 //
 
+import FirebaseAuth
 import SwiftData
 import SwiftUI
 
@@ -14,11 +15,7 @@ struct HomeView: View {
   @State private var showingAddTrip = false
   @State private var showingTripDetails = false
   @State private var selectedTrip: TripModel?
-  private var viewModel: TripViewModel {
-    TripViewModel(
-      modelContext: modelContext,
-      repository: TripRepository(modelContext: modelContext))
-  }
+  @State private var viewModel: TripViewModel?
 
   var body: some View {
     Group {
@@ -44,10 +41,11 @@ struct HomeView: View {
               TripRowView(trip: trip)
             }
           }
-
           .onDelete { offsets in
-            let _ = viewModel.deleteTripsInDB(
-              from: trips, at: offsets)
+            if let viewModel = viewModel {
+              viewModel.deleteTripsInDB(
+                from: trips, at: offsets)
+            }
           }
         }
       }
@@ -70,8 +68,19 @@ struct HomeView: View {
     .sheet(isPresented: $showingAddTrip) {
       AddTripView()
     }
-    .onAppear {
-      print("HomeView appeared, trips count: \(trips.count)")
+    .task {
+      if viewModel == nil {
+        viewModel = TripViewModel(
+          modelContext: modelContext,
+          repository: TripRepository(modelContext: modelContext))
+        print("HomeView appeared, trips count: \(trips.count)")
+      }
+    }
+    .onChange(of: Auth.auth().currentUser?.uid) { _, _ in
+      viewModel = nil
+      viewModel = TripViewModel(
+        modelContext: modelContext,
+        repository: TripRepository(modelContext: modelContext))
     }
   }
 }
