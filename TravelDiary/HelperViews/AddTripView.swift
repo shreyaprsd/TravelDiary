@@ -5,6 +5,7 @@
 //  Created by Shreya Prasad on 12/08/25.
 //
 
+import FirebaseAuth
 import SwiftData
 import SwiftUI
 
@@ -16,9 +17,7 @@ struct AddTripView: View {
   @State private var duration: Int? = nil
   @State private var budgetEstimate: Double? = nil
   @State private var selectedStatus = TripStatus.planned
-  private var tripViewModel: TripViewModel {
-    TripViewModel(modelContext: modelContext)
-  }
+  @State private var tripViewModel: TripViewModel?
 
   var body: some View {
     NavigationView {
@@ -75,14 +74,30 @@ struct AddTripView: View {
 
         ToolbarItem(placement: .navigationBarTrailing) {
           Button("Save") {
-            saveTrip()
+            Task {
+              await saveTrip()
+              dismiss()
+            }
           }
         }
+      }
+      .task {
+        if tripViewModel == nil {
+          tripViewModel = TripViewModel(
+            modelContext: modelContext,
+            repository: TripRepository(modelContext: modelContext))
+        }
+      }
+      .onChange(of: Auth.auth().currentUser?.uid) { _, _ in
+        tripViewModel = nil
+        tripViewModel = TripViewModel(
+          modelContext: modelContext,
+          repository: TripRepository(modelContext: modelContext))
       }
     }
   }
 
-  private func saveTrip() {
+  private func saveTrip() async {
     guard let destination = destination else {
       print("destination not selected")
       return
@@ -92,20 +107,14 @@ struct AddTripView: View {
       " Destination coordinates: \(destination.latitude ?? 0), \(destination.longitude ?? 0)"
     )
 
-    let result = tripViewModel.addTrip(
-      destination: destination,
-      startDate: startDate,
-      budgetEstimate: budgetEstimate ?? 0.0,
-      days: duration ?? 0,
-      status: selectedStatus
-    )
-
-    switch result {
-    case .success:
-      print("trip to \(destination.name) saved")
-      dismiss()
-    case .failure(let error):
-      print(error.localizedDescription)
+    if let tripViewModel = tripViewModel {
+      await tripViewModel.saveTripToDB(
+        destination: destination,
+        startDate: startDate,
+        budgetEstimate: budgetEstimate ?? 0.0,
+        days: duration ?? 0,
+        status: selectedStatus
+      )
     }
   }
 }

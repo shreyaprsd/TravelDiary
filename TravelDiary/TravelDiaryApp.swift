@@ -5,7 +5,10 @@
 //  Created by Shreya Prasad on 08/08/25.
 //
 
+import FirebaseAuth
 import FirebaseCore
+import FirebaseFirestore
+import FirebaseStorage
 import SwiftData
 import SwiftUI
 

@@ -12,9 +12,6 @@ struct TripTextSpecifics: View {
   @Environment(\.modelContext) var modelContext
   @Binding var budgetSpentInput: String
   @Binding var isEditing: Bool
-  private var viewModel: TripViewModel {
-    TripViewModel(modelContext: modelContext)
-  }
 
   var body: some View {
     VStack {
