@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		35449C1E2E900906008068FF /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 35449C1D2E900906008068FF /* Config.xcconfig */; };
 		35BB53ED2E45EB2700E20C1D /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 35BB53EC2E45EB2700E20C1D /* FirebaseAuth */; };
 		35BB53EF2E45EB2700E20C1D /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 35BB53EE2E45EB2700E20C1D /* FirebaseCore */; };
 		35BB53F12E45EB2700E20C1D /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 35BB53F02E45EB2700E20C1D /* FirebaseDatabase */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		35449C1D2E900906008068FF /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		35BB53BF2E45E42C00E20C1D /* TravelDiary.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TravelDiary.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35BB54B52E487F8C00E20C1D /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -74,7 +76,7 @@
 				35BB53C12E45E42C00E20C1D /* TravelDiary */,
 				35BB53C02E45E42C00E20C1D /* Products */,
 				35BB54B52E487F8C00E20C1D /* GoogleService-Info.plist */,
-				3544A1032E9CF4C5008068FF /* Frameworks */,
+				35449C1D2E900906008068FF /* Config.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -161,6 +163,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				35449C1E2E900906008068FF /* Config.xcconfig in Resources */,
 				35BB54B62E487F8C00E20C1D /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -180,6 +183,7 @@
 /* Begin XCBuildConfiguration section */
 		35BB53C82E45E42E00E20C1D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 35449C1D2E900906008068FF /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -299,6 +303,7 @@
 		};
 		35BB53CB2E45E42E00E20C1D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 35449C1D2E900906008068FF /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
