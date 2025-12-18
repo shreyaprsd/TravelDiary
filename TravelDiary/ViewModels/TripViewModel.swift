@@ -10,26 +10,32 @@ import SwiftData
 
 @Observable
 class TripViewModel {
-  var modelContext: ModelContext
-  init(modelContext: ModelContext) {
+  private var modelContext: ModelContext
+  private var tripRepository: TripRepository
+  init(modelContext: ModelContext, repository: TripRepository) {
     self.modelContext = modelContext
+    self.tripRepository = repository
+    loadInitialData()
   }
 
-  func addTrip(
+  private func loadInitialData() {
+    Task {
+      do {
+        try await tripRepository.fetchDataFromFireStore()
+      } catch {
+        print(
+          "Error loading initial data: \(error.localizedDescription)")
+      }
+    }
+  }
+
+  func saveTripToDB(
     destination: DestinationModel,
     startDate: Date,
     budgetEstimate: Double,
     days: Int,
     status: TripStatus
-  ) -> Result<TripModel, TripDataError> {
-    guard !destination.name.isEmpty else {
-      return .failure(.invalidDestination)
-    }
-
-    guard budgetEstimate >= 0 else {
-      return .failure(.invalidBudget)
-    }
-    modelContext.insert(destination)
+  ) async {
     let newTrip = TripModel(
       destination: destination,
       destinationName: destination.name,
@@ -39,57 +45,52 @@ class TripViewModel {
       days: days
     )
 
-    print("Attempting to save trip: \(destination.name)")
-    modelContext.insert(newTrip)
-    do {
-      try modelContext.save()
-      print("Trip saved successfully!")
-      return .success(newTrip)
-    } catch {
-      print("Error saving trip: \(error)")
-      return .failure(.saveError(error))
+    Task {
+      do {
+        try await tripRepository.addTrip(
+          newTrip, destination: destination)
+      } catch {
+        print(
+          "Error saving the trip to databases\(error.localizedDescription)"
+        )
+      }
     }
   }
 
-  func updateTripDetails(
+  func updateTripDetailsToDB(
     _ trip: TripModel,
     headerImage: Data?,
     notes: String,
     budgetSpent: Double
-  ) -> Result<TripModel, TripDataError> {
+  ) {
     if let headerImage = headerImage {
       trip.headerImage = headerImage
     }
     trip.notes = notes
     trip.budgetSpent = budgetSpent
-    print(
-      "Attempting to update trip details for: \( String(describing: trip.destination?.name))"
-    )
-    do {
-      try modelContext.save()
-      print("Trip details updated successfully!")
-      return .success(trip)
-    } catch {
-      print("Error updating trip: \(error)")
-      return .failure(.saveError(error))
+
+    Task {
+      do {
+        try await tripRepository.updateTripDetails(
+          trip, headerImageData: headerImage)
+        print("Trip updated successfully!")
+      } catch {
+        print("Error updating trip: \(error.localizedDescription)")
+      }
     }
   }
 
-  func deleteTrips(from trips: [TripModel], at offsets: IndexSet) -> Result<
-    Void, TripDataError
-  > {
-    for index in offsets {
-      let trip = trips[index]
-      modelContext.delete(trip)
-      print("Deleted destination: \(trip.destinationName)")
-    }
-    do {
-      try modelContext.save()
-      print("Trips deleted successfully!")
-      return .success(())
-    } catch {
-      print("Error deleting trips: \(error)")
-      return .failure(.deleteError(error))
+  func deleteTripsInDB(from trips: [TripModel], at offsets: IndexSet) {
+    Task {
+      do {
+        for index in offsets {
+          try await tripRepository.deletetripDetails(for: [
+            trips[index]
+          ])
+        }
+      } catch {
+        print("Error deleting trips: \(error)")
+      }
     }
   }
 
