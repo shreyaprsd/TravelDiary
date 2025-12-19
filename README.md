@@ -56,7 +56,10 @@ Travel Diary is designed to be your ultimate travel companion, offering a seamle
 ### Configuration
 1. Clone the repository
 2. Configure Firebase with your project. Download the GoogleServices-Info.plist to the root of your project.
-3. Add your ExchangeRate API key
+3. Add your ExchangeRate API key in the .xconfig file. The file contains 
+EXCHANGE_API_KEY=YOUR_API_KEY.
+   Below is the link that will help you to create and set up a configuration file in Xcode projects
+   https://developer.apple.com/documentation/xcode/adding-a-build-configuration-file-to-your-project
 4. Install Firebase SDK and the Google sign-in SDK in Xcode. Below are the links to the SDK
     https://github.com/firebase/firebase-ios-sdk
     https://github.com/google/GoogleSignIn-iOS
