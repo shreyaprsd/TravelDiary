@@ -11,7 +11,6 @@ Travel Diary is designed to be your ultimate travel companion, offering a seamle
 ### 🗺️ Trip Management
 - **Trip Organization**: Create and manage multiple trips with detailed information
 - **Smart Trip List**: View all your trips with destination, dates, budget, and status
-- **Trip Search**: Quickly find trips by filtering through destination names
 - **Status Tracking**: Monitor trip progress with Planned or Completed status indicators
 
 ### 💰 Budget & Expense Tracking
@@ -20,20 +19,12 @@ Travel Diary is designed to be your ultimate travel companion, offering a seamle
 - **Real-time Currency Conversion**: Built-in currency calculator using live exchange rates
 - **Financial Overview**: Clear breakdown of total budget, spent amount, and remaining funds
 
-### 📝 Activity & Itinerary Management
-- **Day-by-day Planning**: Organize activities by specific trip days
-- **Activity Details**: Record activity titles, visit times, locations, and personal notes
-- **Flexible Scheduling**: Easy-to-use interface for adding and managing activities
-- **Location Tracking**: Store specific place names and locations for each activity
-
 ### 🗺️ Interactive Maps
 - **MapKit Integration**: Visual trip planning with interactive maps
 
 ### 📱 User Experience
-- **Multi-tab Interface**: Intuitive navigation across Trip List, Map, Profile, and Share sections
+- **Multi-tab Interface**: Intuitive navigation across Home, Profile, and Currency sections
 - **Firebase Authentication**: Secure user accounts and data synchronization
-- **Network Status**: Real-time connectivity indicators
-- **Social Sharing**: Share your travel experiences and recommend the app to friends
 
 ### 💾 Data Management
 - **SwiftData Integration**: Efficient local data storage and management
@@ -52,21 +43,7 @@ Travel Diary is designed to be your ultimate travel companion, offering a seamle
 - **Authentication**: Firebase Authentication
 - **Database**: Firebase Firestore for cloud data storage
 - **Currency Data**: ExchangeRate API for real-time currency conversion
-- **API Endpoint**: `https://v6.exchangerate-api.com/v6/YOUR-API-KEY/pair/BASE/TARGET/AMOUNT`
-
-### Data Models
-- **Trip Model**: Destination, dates, budget, status, activities
-- **Activity Model**: Title, time, location, notes, day association
-- **User Model**: Profile information, travel statistics
-- **Expense Model**: Amount, currency, category, date
-
-## App Structure
-
-### Main Navigation
-1. **Trip List Tab**: Primary trip management interface
-2. **Map Tab**: Interactive geographical planning tools
-3. **Profile Tab**: User statistics and world map progress
-4. **Share Tab**: Social features and app promotion
+- **API Endpoint**: `https://v6.exchangerate-api.com/v6/YOUR-API-KEY/pair/BASE/TARGET/AMOUNT
 
 ## Installation & Setup
 

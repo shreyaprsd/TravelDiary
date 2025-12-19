@@ -76,7 +76,6 @@
 				35BB53C12E45E42C00E20C1D /* TravelDiary */,
 				35BB53C02E45E42C00E20C1D /* Products */,
 				35BB54B52E487F8C00E20C1D /* GoogleService-Info.plist */,
-				3544A1032E9CF4C5008068FF /* Frameworks */,
 				35449C1D2E900906008068FF /* Config.xcconfig */,
 			);
 			sourceTree = "<group>";
